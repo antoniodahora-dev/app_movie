@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "347150856311",
+    "project_id": "app-movie-f2bb7",
+    "storage_bucket": "app-movie-f2bb7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347150856311:android:ccc8a4f286ae5b17b69672",
+        "android_client_info": {
+          "package_name": "com.a3tecnology.appmovie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnHIedVSgF7-WAibu0b1P3XkpRrK96ue0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
