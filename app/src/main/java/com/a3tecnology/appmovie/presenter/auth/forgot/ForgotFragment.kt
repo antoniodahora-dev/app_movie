@@ -1,35 +1,36 @@
-package com.a3tecnology.appmovie.presenter.auth.register
+package com.a3tecnology.appmovie.presenter.auth.forgot
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.a3tecnology.appmovie.R
-import com.a3tecnology.appmovie.databinding.FragmentRegisterBinding
+import com.a3tecnology.appmovie.databinding.FragmentForgotBinding
 import com.a3tecnology.appmovie.util.StateView
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RegisterFragment : Fragment() {
+class ForgotFragment : Fragment() {
 
-    private var _binding: FragmentRegisterBinding? = null
+    private var _binding : FragmentForgotBinding? = null
+
     private val binding get() = _binding!!
 
-    private val registerViewModel : RegisterViewModel by viewModels()
+    private val forgotViewModel : ForgotViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        // Inflate the layout for this fragment
+        _binding = FragmentForgotBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,44 +39,39 @@ class RegisterFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.btnRegister.setOnClickListener { validateData() }
+        binding.btnForgot.setOnClickListener { validateData() }
 
         Glide
             .with(requireContext())
             .load(R.drawable.loading)
-            .into(binding.progressLoadingRegister)
+            .into(binding.progressLoadingForgot)
     }
 
     private fun validateData() {
-        val email = binding.editEmailRegister.text.toString()
-        val password = binding.editPasswordRegister.text.toString()
+        val email = binding.editEmailForgot.text.toString()
 
         if (email.isNotEmpty()) {
-            if (password.isNotEmpty()) {
-                register(email, password)
-            } else {
-
-            }
+            forgot(email)
 
         } else {
 
         }
     }
 
-    private fun register(email: String, password: String) {
-        registerViewModel.register(email, password).observe(viewLifecycleOwner) {stateView ->
+    private fun forgot(email: String) {
+        forgotViewModel.forgot(email).observe(viewLifecycleOwner) {stateView ->
             when(stateView) {
                 is StateView.Loading -> {
-                    binding.progressLoadingRegister.isVisible = true
+                    binding.progressLoadingForgot.isVisible = true
                 }
 
                 is StateView.Success -> {
-                    binding.progressLoadingRegister.isVisible = false
-                    Toast.makeText(requireContext(), "Salvo com Sucesso.", Toast.LENGTH_SHORT).show()
+                    binding.progressLoadingForgot.isVisible = false
+                    Toast.makeText(requireContext(), "Email enviado com Sucesso.", Toast.LENGTH_SHORT).show()
                 }
 
                 is StateView.Error -> {
-                    binding.progressLoadingRegister.isVisible = false
+                    binding.progressLoadingForgot.isVisible = false
                     Toast.makeText(requireContext(), stateView.message, Toast.LENGTH_SHORT).show()
                 }
             }

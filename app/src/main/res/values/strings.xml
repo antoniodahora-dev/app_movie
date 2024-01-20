@@ -28,4 +28,10 @@
     <string name="text_button_sign_in_login_fragment">Entrar</string>
     <string name="text_forgot_password_login_fragment">Esqueceu a senha?</string>
     <string name="text_continue_social_network_login_fragment">ou continuar com</string>
+
+    <!--    ForgotFragment-->
+    <string name="title_forgot_fragment">Crie sua nova senha</string>
+    <string name="text_hint_edit_email_forgot_fragment">Email</string>
+    <string name="text_button_forgot_fragment">Recuperar conta</string>
+
 </resources>
