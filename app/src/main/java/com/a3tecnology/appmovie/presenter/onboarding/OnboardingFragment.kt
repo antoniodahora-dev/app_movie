@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.FragmentOnboardingBinding
 
@@ -21,6 +22,18 @@ class OnboardingFragment : Fragment() {
 
         _binding = FragmentOnboardingBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initListener()
+    }
+
+    private fun initListener() {
+       binding.btnStart.setOnClickListener {
+           findNavController().navigate(R.id.action_onboardingFragment_to_authentication)
+       }
     }
 
     override fun onDestroy() {

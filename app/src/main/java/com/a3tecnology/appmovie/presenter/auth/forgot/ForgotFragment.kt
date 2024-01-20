@@ -11,6 +11,9 @@ import androidx.fragment.app.viewModels
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.FragmentForgotBinding
 import com.a3tecnology.appmovie.util.StateView
+import com.a3tecnology.appmovie.util.hideKeyboard
+import com.a3tecnology.appmovie.util.initToolbar
+import com.a3tecnology.appmovie.util.isEmailValid
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,6 +38,7 @@ class ForgotFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initToolbar(toolbar = binding.toolbar)
         initListeners()
     }
 
@@ -50,11 +54,13 @@ class ForgotFragment : Fragment() {
     private fun validateData() {
         val email = binding.editEmailForgot.text.toString()
 
-        if (email.isNotEmpty()) {
+        if (email.isEmailValid()) {
+
+            hideKeyboard()
             forgot(email)
 
         } else {
-
+            Toast.makeText(requireContext(), "Email invalido.", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -61,21 +61,26 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
 
     // https://developer.android.com/develop/ui/views/launch/splash-screen/migrate
-    implementation("androidx.core:core-splashscreen:1.0.0")
+    val splashscreenVersion = rootProject.extra["splashscreen_version"]
+    implementation("androidx.core:core-splashscreen:$splashscreenVersion")
 
     // Dagger Hilt
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    val hiltVersion = rootProject.extra["hilt_version"]
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    val viewModelVersion = rootProject.extra["viewModel_version"]
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$viewModelVersion")
 
     // Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
+    val navVersion = rootProject.extra["nav_version"]
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     // Glide
-    implementation("com.github.bumptech.glide:glide:4.16.0")
+    val glideVersion = rootProject.extra["glide_version"]
+    implementation("com.github.bumptech.glide:glide:$glideVersion")
 
 }

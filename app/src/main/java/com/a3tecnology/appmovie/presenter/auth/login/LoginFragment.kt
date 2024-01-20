@@ -8,9 +8,13 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.FragmentLoginBinding
 import com.a3tecnology.appmovie.util.StateView
+import com.a3tecnology.appmovie.util.hideKeyboard
+import com.a3tecnology.appmovie.util.initToolbar
+import com.a3tecnology.appmovie.util.isEmailValid
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +25,7 @@ class LoginFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val loginViewModel : LoginViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,10 +38,16 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initToolbar(toolbar = binding.toolbar)
         initListeners()
     }
+
     private fun initListeners() {
         binding.btnLogin.setOnClickListener { validateData() }
+        binding.btnForgotLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_forgotFragment)
+        }
 
         Glide
             .with(requireContext())
@@ -49,28 +59,31 @@ class LoginFragment : Fragment() {
         val email = binding.editEmailLogin.text.toString()
         val password = binding.editPasswordLogin.text.toString()
 
-        if (email.isNotEmpty()) {
+        if (email.isEmailValid()) {
             if (password.isNotEmpty()) {
+
+                hideKeyboard()
                 login(email, password)
             } else {
 
             }
 
         } else {
-
+            Toast.makeText(requireContext(), "Email invalido.", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun login(email: String, password: String) {
-        loginViewModel.login(email, password).observe(viewLifecycleOwner) {stateView ->
-            when(stateView) {
+        loginViewModel.login(email, password).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
                 is StateView.Loading -> {
                     binding.progressLoadingLogin.isVisible = true
                 }
 
                 is StateView.Success -> {
                     binding.progressLoadingLogin.isVisible = false
-                    Toast.makeText(requireContext(), "Login com Sucesso.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Login com Sucesso.", Toast.LENGTH_SHORT)
+                        .show()
                 }
 
                 is StateView.Error -> {

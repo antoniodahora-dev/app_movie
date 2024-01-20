@@ -11,6 +11,9 @@ import androidx.fragment.app.viewModels
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.FragmentRegisterBinding
 import com.a3tecnology.appmovie.util.StateView
+import com.a3tecnology.appmovie.util.hideKeyboard
+import com.a3tecnology.appmovie.util.initToolbar
+import com.a3tecnology.appmovie.util.isEmailValid
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +37,7 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initToolbar(toolbar = binding.toolbar)
         initListeners()
     }
 
@@ -50,15 +54,16 @@ class RegisterFragment : Fragment() {
         val email = binding.editEmailRegister.text.toString()
         val password = binding.editPasswordRegister.text.toString()
 
-        if (email.isNotEmpty()) {
+        if (email.isEmailValid()) {
             if (password.isNotEmpty()) {
+                hideKeyboard()
                 register(email, password)
             } else {
-
+                Toast.makeText(requireContext(), "Email invalido.", Toast.LENGTH_SHORT).show()
             }
 
         } else {
-
+            Toast.makeText(requireContext(), "Email invalido.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -81,7 +86,6 @@ class RegisterFragment : Fragment() {
             }
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
