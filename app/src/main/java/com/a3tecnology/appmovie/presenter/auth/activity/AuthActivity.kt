@@ -1,8 +1,9 @@
-package com.a3tecnology.appmovie.presenter.activity
+package com.a3tecnology.appmovie.presenter.auth.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.a3tecnology.appmovie.R
+import com.google.firebase.BuildConfig
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

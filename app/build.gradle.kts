@@ -4,6 +4,8 @@ plugins {
     id("com.google.gms.google-services")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -59,6 +61,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-storage")
+
 
     // https://developer.android.com/develop/ui/views/launch/splash-screen/migrate
     val splashscreenVersion = rootProject.extra["splashscreen_version"]

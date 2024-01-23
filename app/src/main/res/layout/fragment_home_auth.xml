@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presenter.auth.home.HomeAuthFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView_home_auth"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_image_home_auth"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/urbanist_700"
+            android:text="@string/title_home_auth_fragment"
+            android:textColor="#212121"
+            android:textSize="48sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView_home_auth" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="32dp"
+            android:padding="16dp"
+            android:background="@drawable/bg_border"
+            app:layout_constraintTop_toBottomOf="@id/txt_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_facebook"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:textSize="16sp"
+                android:textColor="#212121"
+                android:fontFamily="@font/urbanist_600"
+                android:text="@string/button_continue_with_facebook_home_auth_fragment"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_google"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:background="@drawable/bg_border"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout_facebook"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_google"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:textSize="16sp"
+                android:textColor="#212121"
+                android:fontFamily="@font/urbanist_600"
+                android:text="@string/button_continue_with_google_home_auth_fragment"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_social"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout_google"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#EEEEEE"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:fontFamily="@font/urbanist_600"
+                android:textColor="#616161"
+                android:text="@string/text_social_or_password_home_auth_fragment"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#EEEEEE"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/button_sign_in_with_password_home_auth_fragment"
+            style="@style/ThemeButton"
+            app:backgroundTint="@null"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout_social"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_no_have"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_sign">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/urbanist_400"
+                android:text="@string/text_dont_have_an_account_home_auth_fragment"
+                android:textColor="#9E9E9E" />
+
+            <TextView
+                android:id="@+id/btn_register_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/urbanist_400"
+                android:text="@string/text_sign_up_home_auth_fragment"
+                android:textColor="@color/color_default" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

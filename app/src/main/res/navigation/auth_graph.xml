@@ -22,7 +22,7 @@
             android:id="@+id/homeAuthFragment"
             android:name="com.a3tecnology.appmovie.presenter.auth.home.HomeAuthFragment"
             android:label="fragment_home"
-            tools:layout="@layout/fragment_home" >
+            tools:layout="@layout/fragment_home_auth" >
             <action
                 android:id="@+id/action_homeAuthFragment_to_loginFragment"
                 app:destination="@id/loginFragment" />

@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.a3tecnology.appmovie.R
+import com.google.android.material.snackbar.Snackbar
+
 
 
 fun Fragment.initToolbar(toolbar: Toolbar, showIconNavigation: Boolean = true) {
@@ -22,7 +24,6 @@ fun Fragment.initToolbar(toolbar: Toolbar, showIconNavigation: Boolean = true) {
     }
 }
 
-
 // Toolbar the Views
 fun Fragment.hideKeyboard() { //hide keyboard
     val view = activity?.currentFocus
@@ -38,4 +39,13 @@ fun String.isEmailValid(): Boolean { // verify - validation email
     return emailPattern.matches(this)
 }
 
+// exibir/tratar as mensagens de error
+fun Fragment.showSnackBar(
+    message: Int,
+    duration: Int = Snackbar.LENGTH_SHORT
+) {
+    view?.let {
+        Snackbar.make(it, message, duration).show()
+    }
+}
 

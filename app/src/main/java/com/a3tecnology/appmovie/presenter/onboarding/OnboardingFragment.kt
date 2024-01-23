@@ -32,7 +32,9 @@ class OnboardingFragment : Fragment() {
 
     private fun initListener() {
        binding.btnStart.setOnClickListener {
-           findNavController().navigate(R.id.action_onboardingFragment_to_authentication)
+           findNavController().navigate(
+               R.id.action_onboardingFragment_to_authentication
+           )
        }
     }
 
