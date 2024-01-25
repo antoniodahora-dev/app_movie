@@ -6,6 +6,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -89,5 +90,19 @@ dependencies {
     // Glide
     val glideVersion = rootProject.extra["glide_version"]
     implementation("com.github.bumptech.glide:glide:$glideVersion")
+
+    // Retrofit
+    val retrofitVersion = rootProject.extra["retrofit_version"]
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+
+    // OKHttp
+    val okhttpVersion = rootProject.extra["okhttp_version"]
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:$okhttpVersion"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+
+    //SearchView - https://github.com/Ferfalk/SimpleSearchView
+    implementation("com.github.Ferfalk:SimpleSearchView:0.2.1")
 
 }

@@ -153,37 +153,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@id/linearLayout_login"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/linearLayout_login">
 
             <ImageView
                 android:id="@+id/image_facebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_facebook"
                 android:background="@drawable/bg_border"
                 android:paddingHorizontal="32dp"
-                android:paddingVertical="16dp"/>
+                android:paddingVertical="16dp"
+                android:src="@drawable/ic_facebook" />
 
 
             <ImageView
                 android:id="@+id/image_google"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_google"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/bg_border"
                 android:paddingHorizontal="32dp"
-                android:paddingVertical="16dp"/>
+                android:paddingVertical="16dp"
+                android:src="@drawable/ic_google" />
         </LinearLayout>
 
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </ScrollView>

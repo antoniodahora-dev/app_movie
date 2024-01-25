@@ -6,8 +6,10 @@ import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.a3tecnology.appmovie.BuildConfig
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.ActivityMainBinding
+import com.a3tecnology.appmovie.util.FirebaseHelp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initNavigation()
+//        FirebaseHelp.getAuth().signOut()
 
     }
 

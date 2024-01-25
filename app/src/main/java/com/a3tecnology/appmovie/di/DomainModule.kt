@@ -1,7 +1,9 @@
 package com.a3tecnology.appmovie.di
 
 import com.a3tecnology.appmovie.data.repository.auth.FirebaseAuthenticatorImpl
+import com.a3tecnology.appmovie.data.repository.movie.MovieRepositoryImpl
 import com.a3tecnology.appmovie.domain.repository.auth.FirebaseAuthenticator
+import com.a3tecnology.appmovie.domain.repository.movie.MovieRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,4 +17,9 @@ abstract class DomainModule {
     abstract fun bindsFirebaseAuthenticatorImpl(
         firebaseAuthenticatorImpl: FirebaseAuthenticatorImpl
     ) : FirebaseAuthenticator
+
+    @Binds
+    abstract fun bindsMovieRepositoryImpl(
+        movieRepositoryImpl: MovieRepositoryImpl
+    ) : MovieRepository
 }
