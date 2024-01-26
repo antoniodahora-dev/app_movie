@@ -11,7 +11,8 @@ import com.a3tecnology.appmovie.databinding.GenreItemBinding
 import com.a3tecnology.appmovie.presenter.main.bottombar.model.GenrePresentation
 
 class GenreMovieAdapter(
-    private val showAllListener: (Int, String) -> Unit
+    private val showAllListener: (Int, String) -> Unit,
+    private val movieClickListener: (Int?) -> Unit
 ): ListAdapter<GenrePresentation, GenreMovieAdapter.MyViewHolder>(DIFF_UTIL) {
 
     companion object {
@@ -53,7 +54,8 @@ class GenreMovieAdapter(
 
         val movieAdapter = MovieAdapter(
              holder.binding.root.context,
-            layoutInflater = R.layout.movie_item
+            layoutInflater = R.layout.movie_item,
+            movieClickListener = movieClickListener
         )
 
         val linearLayoutManager =

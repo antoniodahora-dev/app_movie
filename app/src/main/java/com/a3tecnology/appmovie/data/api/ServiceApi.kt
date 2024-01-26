@@ -4,6 +4,7 @@ import com.a3tecnology.appmovie.data.model.BasePaginationRemote
 import com.a3tecnology.appmovie.data.model.GenresResponse
 import com.a3tecnology.appmovie.data.model.MovieResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ServiceApi {
@@ -27,4 +28,12 @@ interface ServiceApi {
         @Query("language") language: String?,
         @Query("query") query: String?
     ) : BasePaginationRemote<List<MovieResponse>>
+
+    @GET("movie/{movie_id}")
+    suspend fun getMovieDetails(
+        @Path("movie_id") movieId: Int?,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String?
+
+    ): MovieResponse
 }

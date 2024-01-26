@@ -15,7 +15,9 @@ import com.bumptech.glide.Glide
 
 class MovieAdapter(
     private val context: Context,
-    private val layoutInflater: Int
+    private val layoutInflater: Int,
+    private val movieClickListener: (Int?) -> Unit
+
 ): ListAdapter<Movie, MovieAdapter.MyViewHolder>(DIFF_UTIL) {
 
     companion object {
@@ -48,6 +50,7 @@ class MovieAdapter(
 //            .error(R.drawable.movie) - caso o item não contenha image
             .into(holder.movieView)
 
+        holder.itemView.setOnClickListener { movieClickListener(movie.id) }
     }
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
