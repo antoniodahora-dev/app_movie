@@ -1,7 +1,9 @@
 package com.a3tecnology.appmovie.data.mapper
 
+import com.a3tecnology.appmovie.data.model.CountryResponse
 import com.a3tecnology.appmovie.data.model.GenreResponse
 import com.a3tecnology.appmovie.data.model.MovieResponse
+import com.a3tecnology.appmovie.domain.model.Country
 import com.a3tecnology.appmovie.domain.model.Genre
 import com.a3tecnology.appmovie.domain.model.Movie
 import com.a3tecnology.appmovie.presenter.main.bottombar.model.GenrePresentation
@@ -28,7 +30,9 @@ fun MovieResponse.toDomain(): Movie {
         title = title,
         video = video,
         voteAverage = voteAverage,
-        voteCount = voteCount
+        voteCount = voteCount,
+        productionCountries = productionCountries?.map { it.toDomain() }
+
     )
 }
 
@@ -41,3 +45,7 @@ fun Genre.toPresentation() : GenrePresentation {
 
     )
 }
+
+fun CountryResponse.toDomain() = Country(
+    name = name
+)

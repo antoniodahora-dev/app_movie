@@ -41,6 +41,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:padding="16dp"
@@ -56,7 +57,7 @@
                 android:layout_marginEnd="24dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/urbanist_700"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:textColor="#212121"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout"
@@ -88,8 +89,155 @@
 
             </LinearLayout>
 
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:scrollbars="none"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_title_movie_detail">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_info_classification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_title_movie_detail">
+
+                    <ImageView
+                        android:id="@+id/image_star"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_star" />
+
+                    <TextView
+                        android:id="@+id/txt_vote_average"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="@font/urbanist_500"
+                        android:textColor="@color/color_default"
+                        android:textSize="12sp"
+                        tools:text="9.8" />
+
+                    <ImageView
+                        android:id="@+id/image_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:src="@drawable/ic_arrow_right" />
+
+                    <TextView
+                        android:id="@+id/txt_age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="@font/urbanist_600"
+                        android:text="2024"
+                        android:textColor="#424242" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/bg_border_red"
+                        android:fontFamily="@font/urbanist_600"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="6dp"
+                        android:text="13+"
+                        android:textColor="@color/color_default"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/txt_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/bg_border_red"
+                        android:fontFamily="@font/urbanist_600"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="6dp"
+                        android:textColor="@color/color_default"
+                        android:textSize="11sp"
+                        tools:text="United State" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/bg_border_red"
+                        android:fontFamily="@font/urbanist_600"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="6dp"
+                        android:text="Subtitle"
+                        android:textColor="@color/color_default"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:layout_weight="1"
+                    android:text="Play"
+                    android:fontFamily="@font/urbanist_600"
+                    android:layout_marginEnd="4dp"
+                    android:textAllCaps="false"
+                    android:background="@drawable/bg_border_red_full_fill"
+                    app:icon="@drawable/ic_play"
+                    app:iconPadding="-21dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:layout_weight="1"
+                    android:text="Download"
+                    android:fontFamily="@font/urbanist_600"
+                    android:layout_marginStart="4dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/color_default"
+                    android:background="@drawable/bg_border_red_full_line"
+                    app:backgroundTint="@null"
+                    app:icon="@drawable/ic_download"
+                    app:iconTint="@color/color_default"
+                    app:iconPadding="-20dp"/>
+
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

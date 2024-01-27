@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -45,11 +46,16 @@ class MovieDetailsFragment : Fragment() {
         viewMovieDetails.getMovieDetails(args.movieId).observe(viewLifecycleOwner) { stateView ->
             when (stateView) {
 
-                is StateView.Loading -> {}
+                is StateView.Loading -> {
+                    binding.progressBar.isVisible = true
+                }
                 is StateView.Success -> {
+                    binding.progressBar.isVisible = false
                     configData(movie = stateView.data)
                 }
-                is StateView.Error -> {}
+                is StateView.Error -> {
+                    binding.progressBar.isVisible = false
+                }
             }
 
         }
@@ -63,6 +69,10 @@ class MovieDetailsFragment : Fragment() {
             .into(binding.imagePostMovie)
 
         binding.txtTitleMovieDetail.text = movie?.title
+
+        binding.txtVoteAverage.text = String.format("%.1f", movie?.voteAverage)
+        binding.txtCountry.text = movie?.productionCountries?.get(0)?.name ?: ""
+
     }
 
     override fun onDestroy() {

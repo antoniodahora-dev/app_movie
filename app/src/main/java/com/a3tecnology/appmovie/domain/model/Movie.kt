@@ -1,6 +1,7 @@
 package com.a3tecnology.appmovie.domain.model
 
 import android.os.Parcelable
+import com.a3tecnology.appmovie.data.model.CountryResponse
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -18,5 +19,6 @@ data class Movie(
     val title: String?,
     val video: Boolean?,
     val voteAverage: Float?,
-    val voteCount: Int?
+    val voteCount: Int?,
+    val productionCountries: List<Country>?
 ): Parcelable
