@@ -26,7 +26,7 @@ class MovieDetailsRepositoryImpl @Inject constructor(
         language: String?,
         movieId: Int?
     ): CreditResponse {
-        return serviceApi.getCredit(
+        return serviceApi.getCredits(
             apiKey = apiKey,
             movieId = movieId,
             language = language
