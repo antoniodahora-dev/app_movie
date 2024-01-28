@@ -140,7 +140,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:fontFamily="@font/urbanist_600"
-                        android:text="2024"
+                        tools:text="2024"
                         android:textColor="#424242" />
 
                     <TextView
@@ -194,7 +194,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="38dp"
                     android:layout_weight="1"
                     android:text="Play"
@@ -203,10 +203,10 @@
                     android:textAllCaps="false"
                     android:background="@drawable/bg_border_red_full_fill"
                     app:icon="@drawable/ic_play"
-                    app:iconPadding="-21dp"/>
+                    app:iconGravity="textStart"/>
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="38dp"
                     android:layout_weight="1"
                     android:text="Download"
@@ -218,10 +218,41 @@
                     app:backgroundTint="@null"
                     app:icon="@drawable/ic_download"
                     app:iconTint="@color/color_default"
-                    app:iconPadding="-20dp"/>
+                    app:iconGravity="textStart"/>
 
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_genres"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/urbanist_500"
+                android:textSize="14sp"
+                android:textColor="#212121"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linearLayout_btn"
+                tools:text="Genre: Estilo ação, drama e ect"/>
+
+            <TextView
+                android:id="@+id/txt_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/urbanist_500"
+                android:justificationMode="inter_word"
+                android:textSize="14sp"
+                android:textColor="#424242"
+                android:maxLines="3"
+                android:ellipsize="end"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_genres"
+                tools:text="Description"/>
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -235,8 +266,6 @@
                 tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

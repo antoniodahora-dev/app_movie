@@ -3,6 +3,7 @@ package com.a3tecnology.appmovie.presenter.main.movie_details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.a3tecnology.appmovie.BuildConfig
+import com.a3tecnology.appmovie.domain.usecase.movie.GetCreditUseCase
 import com.a3tecnology.appmovie.domain.usecase.movie.GetMovieByGenreUseCase
 import com.a3tecnology.appmovie.domain.usecase.movie.GetMovieDetailsUseCase
 import com.a3tecnology.appmovie.util.Constants
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    private val getMovieDetailsUseCas: GetMovieDetailsUseCase
+    private val getMovieDetailsUseCas: GetMovieDetailsUseCase,
+    private val getCreditUseCase: GetCreditUseCase
 ) : ViewModel() {
 
     fun getMovieDetails(movieId: Int?) = liveData(Dispatchers.IO) {
@@ -38,4 +40,28 @@ class MovieDetailsViewModel @Inject constructor(
         }
 
     }
+
+    fun getCredit(movieId: Int?) = liveData(Dispatchers.IO) {
+
+        try {
+            emit(StateView.Loading())
+
+            val movieCredit = getCreditUseCase(
+                apiKey = BuildConfig.API_KEY,
+                language = Constants.Movie.LANGUAGE,
+                movieId = movieId
+            )
+            emit(StateView.Success(movieCredit))
+
+        } catch (e: HttpException) {
+            e.printStackTrace()
+            emit(StateView.Error(message = e.message))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(StateView.Error(message = e.message))
+        }
+
+    }
+
+
 }

@@ -1,14 +1,13 @@
 package com.a3tecnology.appmovie.domain.model
 
 import android.os.Parcelable
-import com.a3tecnology.appmovie.data.model.CountryResponse
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Movie(
     val adult: Boolean?,
     val backdropPath: String?,
-    val genreIds: List<Int>?,
+    val genres: List<Genre>?,
     val id: Int?,
     val originalLanguage: String?,
     val originalTitle: String?,

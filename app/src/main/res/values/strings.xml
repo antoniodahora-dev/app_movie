@@ -75,6 +75,7 @@
     <!--    MovieGenreFragment -->
     <string name="txt_show_all_category">Ver Todos</string>
     <string name="txt_search_hint">Pesquisar</string>
+    <string name="txt_all_genres_movie_detail"> Genêro: %1$s</string>
 
 
 </resources>

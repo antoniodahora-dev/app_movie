@@ -10,7 +10,7 @@ class MovieRepositoryImpl @Inject constructor(
     private val serviceApi: ServiceApi
 ) : MovieRepository {
     override suspend fun getGenres(
-        apiKey: String,
+        apiKey: String?,
         language: String?): GenresResponse {
         return serviceApi.getGenres(
             apiKey = apiKey,
@@ -18,8 +18,9 @@ class MovieRepositoryImpl @Inject constructor(
         )
     }
 
+
     override suspend fun getMovieByGenre(
-        apiKey: String,
+        apiKey: String?,
         language: String?,
         genreId: Int?
     ): List<MovieResponse> {
@@ -31,7 +32,7 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchMovie(
-        apiKey: String,
+        apiKey: String?,
         language: String?,
         query: String?
     ): List<MovieResponse> {
@@ -42,15 +43,4 @@ class MovieRepositoryImpl @Inject constructor(
         ).results ?: emptyList()
     }
 
-    override suspend fun getMovieDetails(
-        apiKey: String,
-        language: String?,
-        movieId: Int?
-    ): MovieResponse {
-        return serviceApi.getMovieDetails(
-            apiKey = apiKey,
-            language = language,
-            movieId = movieId
-        )
-    }
 }
