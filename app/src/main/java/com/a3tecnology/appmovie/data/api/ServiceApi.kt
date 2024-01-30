@@ -46,5 +46,13 @@ interface ServiceApi {
 
     ): CreditResponse
 
+    @GET("movie/{movie_id}/similar")
+    suspend fun getSimilar(
+        @Path("movie_id") movieId: Int?,
+        @Query("api_key") apiKey: String?,
+        @Query("language") language: String?
+
+    ): BasePaginationRemote<List<MovieResponse>>
+
 
 }

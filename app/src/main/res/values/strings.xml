@@ -68,6 +68,10 @@
     <string name="title_menu_download">Baixar</string>
     <string name="title_menu_profile">Perfil</string>
 
+    <!--    TabLayout-->
+    <string name="title_trailers_tab_layout">Trailers</string>
+    <string name="title_similar_tab_layout">Similares</string>
+    <string name="title_Comments_tab_layout">Comentários</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
