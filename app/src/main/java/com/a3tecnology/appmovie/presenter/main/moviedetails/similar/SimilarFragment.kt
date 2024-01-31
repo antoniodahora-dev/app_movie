@@ -1,0 +1,102 @@
+package com.a3tecnology.appmovie.presenter.main.moviedetails.similar
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.a3tecnology.appmovie.MainGraphDirections
+import com.a3tecnology.appmovie.R
+import com.a3tecnology.appmovie.databinding.FragmentSimilarBinding
+import com.a3tecnology.appmovie.presenter.main.bottombar.home.adapter.MovieAdapter
+import com.a3tecnology.appmovie.presenter.main.moviedetails.details.MovieDetailsViewModel
+import com.a3tecnology.appmovie.util.StateView
+import dagger.hilt.android.AndroidEntryPoint
+
+
+@AndroidEntryPoint
+class SimilarFragment : Fragment() {
+
+    private var _binding : FragmentSimilarBinding? = null
+
+    private val binding get() = _binding!!
+
+    private lateinit var movieAdapter: MovieAdapter
+
+    private val similarViewModel: SimilarViewModel by viewModels()
+
+    private val viewMovieDetails: MovieDetailsViewModel by activityViewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        _binding = FragmentSimilarBinding.inflate(inflater, container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initRecycler()
+        initObservers()
+    }
+
+    private fun initRecycler() {
+
+        movieAdapter = MovieAdapter(
+           context = requireContext(),
+            layoutInflater = R.layout.movie_genre_item,
+            movieClickListener = { movieId ->
+                movieId?.let {
+                    val action = MainGraphDirections
+                        .actionGlobalMovieDetailsFragment(movieId)
+
+                    findNavController().navigate(action)
+                }
+
+            })
+        val gridLayoutManager =
+           GridLayoutManager(requireContext(), 2)
+
+        with(binding.recyclerVMovie) {
+            layoutManager = gridLayoutManager
+            setHasFixedSize(true)
+            adapter = movieAdapter
+        }
+    }
+
+    private fun initObservers() {
+        viewMovieDetails.movieId.observe(viewLifecycleOwner) { movieId ->
+            if (movieId > 0 ) {
+                getSimilar(movieId)
+            }
+
+        }
+    }
+    private fun getSimilar(movieId: Int) {
+
+        similarViewModel.getSimilar(movieId).observe(viewLifecycleOwner) { stateView ->
+
+            when (stateView) {
+                is StateView.Loading -> {}
+                is StateView.Success -> {
+                    movieAdapter.submitList(stateView.data)
+                }
+
+                is StateView.Error -> {}
+            }
+        }
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+}

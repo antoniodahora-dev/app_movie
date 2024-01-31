@@ -1,19 +1,21 @@
-package com.a3tecnology.appmovie.presenter.main.movie_details
+package com.a3tecnology.appmovie.presenter.main.moviedetails.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.FragmentMovieDetailsBinding
 import com.a3tecnology.appmovie.domain.model.Movie
-import com.a3tecnology.appmovie.presenter.main.movie_details.adapter.CastAdapter
-import com.a3tecnology.appmovie.presenter.main.movie_details.adapter.ViewPagerAdapter
+import com.a3tecnology.appmovie.presenter.main.moviedetails.adapter.CastAdapter
+import com.a3tecnology.appmovie.presenter.main.moviedetails.adapter.ViewPagerAdapter
+import com.a3tecnology.appmovie.presenter.main.moviedetails.comments.CommentsFragment
+import com.a3tecnology.appmovie.presenter.main.moviedetails.similar.SimilarFragment
+import com.a3tecnology.appmovie.presenter.main.moviedetails.trailers.TrailersFragment
 import com.a3tecnology.appmovie.util.StateView
 import com.a3tecnology.appmovie.util.initToolbar
 import com.bumptech.glide.Glide
@@ -29,7 +31,7 @@ class MovieDetailsFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val viewMovieDetails: MovieDetailsViewModel by viewModels()
+    private val viewMovieDetails: MovieDetailsViewModel by activityViewModels()
 
     private val args: MovieDetailsFragmentArgs by navArgs()
 
@@ -53,6 +55,10 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun configTabLayout() {
+
+        // iremos acessar o fragments baseado nos id
+        viewMovieDetails.setMovieId(movieId = args.movieId)
+
         val adapter = ViewPagerAdapter(requireActivity())
         binding.viewPager.adapter = adapter
 

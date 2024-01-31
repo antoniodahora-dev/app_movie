@@ -1,4 +1,4 @@
-package com.a3tecnology.appmovie.presenter.main.movie_details.adapter
+package com.a3tecnology.appmovie.presenter.main.moviedetails.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

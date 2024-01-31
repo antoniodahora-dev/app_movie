@@ -1,14 +1,18 @@
 package com.a3tecnology.appmovie.data.mapper
 
+import com.a3tecnology.appmovie.data.model.AuthorDetailsResponse
 import com.a3tecnology.appmovie.data.model.CountryResponse
 import com.a3tecnology.appmovie.data.model.CreditResponse
 import com.a3tecnology.appmovie.data.model.GenreResponse
 import com.a3tecnology.appmovie.data.model.MovieResponse
+import com.a3tecnology.appmovie.data.model.MovieReviewResponse
 import com.a3tecnology.appmovie.data.model.PersonResponse
+import com.a3tecnology.appmovie.domain.model.AuthorDetails
 import com.a3tecnology.appmovie.domain.model.Country
 import com.a3tecnology.appmovie.domain.model.Credit
 import com.a3tecnology.appmovie.domain.model.Genre
 import com.a3tecnology.appmovie.domain.model.Movie
+import com.a3tecnology.appmovie.domain.model.MovieReview
 import com.a3tecnology.appmovie.domain.model.Person
 import com.a3tecnology.appmovie.presenter.main.bottombar.model.GenrePresentation
 
@@ -76,6 +80,28 @@ fun PersonResponse.toDomain() : Person {
 fun CreditResponse.toDomain(): Credit {
     return Credit(
         cast = cast?.map { it.toDomain() }
+    )
+}
+
+fun AuthorDetailsResponse.toDomain(): AuthorDetails {
+    return AuthorDetails(
+        name = name,
+        username = username,
+        avatarPath = "https://image.tmdb.org/t/p/w500${avatarPath}",
+        rating = rating ,
+    )
+}
+
+fun MovieReviewResponse.toDomain(): MovieReview {
+
+    return MovieReview(
+        author = author,
+        authorDetails = authorDetailsResponse?.toDomain(),
+        createdAt = createdAt,
+        id =  id,
+        content = content,
+        updatedAt = updatedAt,
+        url = url
     )
 }
 

@@ -1,10 +1,11 @@
-package com.a3tecnology.appmovie.presenter.main.movie_details
+package com.a3tecnology.appmovie.presenter.main.moviedetails.details
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.a3tecnology.appmovie.BuildConfig
 import com.a3tecnology.appmovie.domain.usecase.movie.GetCreditUseCase
-import com.a3tecnology.appmovie.domain.usecase.movie.GetMovieByGenreUseCase
 import com.a3tecnology.appmovie.domain.usecase.movie.GetMovieDetailsUseCase
 import com.a3tecnology.appmovie.util.Constants
 import com.a3tecnology.appmovie.util.StateView
@@ -18,6 +19,9 @@ class MovieDetailsViewModel @Inject constructor(
     private val getMovieDetailsUseCas: GetMovieDetailsUseCase,
     private val getCreditUseCase: GetCreditUseCase
 ) : ViewModel() {
+
+    private val _movieId = MutableLiveData(0)
+    val movieId: LiveData<Int> = _movieId
 
     fun getMovieDetails(movieId: Int?) = liveData(Dispatchers.IO) {
 
@@ -63,5 +67,8 @@ class MovieDetailsViewModel @Inject constructor(
 
     }
 
+    fun setMovieId(movieId: Int) {
+        _movieId.value = movieId
+    }
 
 }

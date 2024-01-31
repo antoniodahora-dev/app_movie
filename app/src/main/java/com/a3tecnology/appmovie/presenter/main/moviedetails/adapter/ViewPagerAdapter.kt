@@ -1,4 +1,4 @@
-package com.a3tecnology.appmovie.presenter.main.movie_details.adapter
+package com.a3tecnology.appmovie.presenter.main.moviedetails.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
