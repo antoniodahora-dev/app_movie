@@ -17,6 +17,7 @@ import com.a3tecnology.appmovie.presenter.main.moviedetails.comments.CommentsFra
 import com.a3tecnology.appmovie.presenter.main.moviedetails.similar.SimilarFragment
 import com.a3tecnology.appmovie.presenter.main.moviedetails.trailers.TrailersFragment
 import com.a3tecnology.appmovie.util.StateView
+import com.a3tecnology.appmovie.util.ViewPager2ViewHeightAnimator
 import com.a3tecnology.appmovie.util.initToolbar
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
@@ -60,7 +61,10 @@ class MovieDetailsFragment : Fragment() {
         viewMovieDetails.setMovieId(movieId = args.movieId)
 
         val adapter = ViewPagerAdapter(requireActivity())
-        binding.viewPager.adapter = adapter
+        val mViewPager = ViewPager2ViewHeightAnimator()
+
+        mViewPager.viewPager2 = binding.viewPager
+        mViewPager.viewPager2?.adapter = adapter
 
         adapter.addFragment(
             fragment = TrailersFragment(),
@@ -79,13 +83,13 @@ class MovieDetailsFragment : Fragment() {
 
         binding.viewPager.offscreenPageLimit = adapter.itemCount
 
-        TabLayoutMediator(
-            binding.tabs, binding.viewPager
-        ) { tab, position ->
-            tab.text = getString(adapter.getTitle(position))
-        }.attach()
-
-
+        mViewPager.viewPager2?.let { viewPager ->
+            TabLayoutMediator(
+                binding.tabs, viewPager
+            ) { tab, position ->
+                tab.text = getString(adapter.getTitle(position))
+            }.attach()
+        }
     }
 
     private fun getMovieDetails() {

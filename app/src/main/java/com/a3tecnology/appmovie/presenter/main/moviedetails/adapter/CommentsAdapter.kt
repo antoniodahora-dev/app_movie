@@ -2,9 +2,11 @@ package com.a3tecnology.appmovie.presenter.main.moviedetails.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.ItemCommentReviewBinding
 import com.a3tecnology.appmovie.domain.model.MovieReview
 import com.a3tecnology.appmovie.util.formatCommentDate
@@ -43,10 +45,18 @@ class CommentsAdapter : ListAdapter<MovieReview, CommentsAdapter.MyViewHolder>(D
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val review = getItem(position)
-        Glide
-            .with(holder.binding.root.context)
-            .load(review.authorDetails?.avatarPath)
-            .into(holder.binding.imageUserComment)
+
+        review.authorDetails?.avatarPath?.let { avatarPath ->
+            Glide
+                .with(holder.binding.root.context)
+                .load("https://image.tmdb.org/t/p/w500$avatarPath")
+                .into(holder.binding.imageUserComment)
+        } ?: run {
+            holder.binding.imageUserComment.setImageDrawable(
+                ContextCompat.getDrawable(holder.binding.root.context, R.drawable.movie)
+            )
+        }
+
 
         holder.binding.txtUsernameComment.text = review.authorDetails?.name
         holder.binding.txtDetailComment.text = review.content
