@@ -1,60 +1,132 @@
 package com.a3tecnology.appmovie.presenter.main.bottombar.search
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.a3tecnology.appmovie.MainGraphDirections
 import com.a3tecnology.appmovie.R
+import com.a3tecnology.appmovie.databinding.FragmentSearchBinding
+import com.a3tecnology.appmovie.presenter.main.bottombar.home.adapter.MovieAdapter
+import com.a3tecnology.appmovie.util.StateView
+import com.a3tecnology.appmovie.util.hideKeyboard
+import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SearchFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding : FragmentSearchBinding? = null
+    private val binding get() = _binding!!
+
+    private val searchViewModel: SearchViewModel by viewModels()
+
+    private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+    ): View {
+
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SearchFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SearchFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initRecycler()
+        initSearchView()
+        initObservers()
+    }
+
+    private fun initObservers() {
+        stateObservers()
+        searchObserver()
+
+    }
+
+    private fun stateObservers() {
+
+    }
+
+    private fun searchObserver() {
+
+        searchViewModel.searchMovie().observe(viewLifecycleOwner) { stateView ->
+
+            when (stateView) {
+                is StateView.Loading -> {
+                    binding.recyclerMovies.isVisible = false
+                    binding.progressBar.isVisible = true
+
+                }
+                is StateView.Success -> {
+                    binding.progressBar.isVisible = false
+                    movieAdapter.submitList(stateView.data)
+                    binding.recyclerMovies.isVisible = true
+                }
+
+                is StateView.Error -> {
+                    binding.progressBar.isVisible = false
                 }
             }
+        }
     }
+
+    private fun initRecycler() {
+
+        movieAdapter = MovieAdapter(
+            requireContext(),
+            layoutInflater = R.layout.movie_genre_item,
+            movieClickListener = { movieId ->
+
+                movieId?.let {
+                    val action = MainGraphDirections
+                        .actionGlobalMovieDetailsFragment(movieId)
+
+                    findNavController().navigate(action)
+                }
+            }
+        )
+
+        with(binding.recyclerMovies) {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            adapter = movieAdapter
+        }
+    }
+
+    private fun initSearchView() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+
+                hideKeyboard()
+
+                if (query.isNotEmpty()) {
+                    searchViewModel.searchMovie(query)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                Log.d("SimpleSearchView", "Text changed:$newText")
+                return false
+            }
+
+        })
+
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
 }
