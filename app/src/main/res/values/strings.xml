@@ -81,5 +81,9 @@
     <string name="txt_search_hint">Pesquisar</string>
     <string name="txt_all_genres_movie_detail"> Genêro: %1$s</string>
 
+    <!--    SearchFragment-->
+    <string name="txt_title_empty_search_fragment">Não encontrado</string>
+    <string name="txt_message_empty_search_fragment">Desculpe, a palavra-chave que você digitou não foi encontrada. Tente verificar novamente ou pesquise com outras palavras-chave.</string>
+
 
 </resources>

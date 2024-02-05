@@ -20,4 +20,8 @@ data class Movie(
     val voteAverage: Float?,
     val voteCount: Int?,
     val productionCountries: List<Country>?
-): Parcelable
+): Parcelable {
+    companion object {
+        val LANGUAGE: String? = null
+    }
+}

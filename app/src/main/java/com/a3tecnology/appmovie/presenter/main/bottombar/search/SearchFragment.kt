@@ -48,18 +48,13 @@ class SearchFragment : Fragment() {
     }
 
     private fun initObservers() {
-        stateObservers()
+        stateObserver()
         searchObserver()
-
     }
 
-    private fun stateObservers() {
+    private fun stateObserver() {
 
-    }
-
-    private fun searchObserver() {
-
-        searchViewModel.searchMovie().observe(viewLifecycleOwner) { stateView ->
+        searchViewModel.searchState.observe(viewLifecycleOwner) { stateView ->
 
             when (stateView) {
                 is StateView.Loading -> {
@@ -69,7 +64,6 @@ class SearchFragment : Fragment() {
                 }
                 is StateView.Success -> {
                     binding.progressBar.isVisible = false
-                    movieAdapter.submitList(stateView.data)
                     binding.recyclerMovies.isVisible = true
                 }
 
@@ -77,6 +71,14 @@ class SearchFragment : Fragment() {
                     binding.progressBar.isVisible = false
                 }
             }
+        }
+    }
+
+    private fun searchObserver() {
+
+        searchViewModel.movieList.observe(viewLifecycleOwner) { movieList ->
+            movieAdapter.submitList(movieList)
+            emptyState(empty = movieList.isEmpty())
         }
     }
 
@@ -124,6 +126,13 @@ class SearchFragment : Fragment() {
 
 
     }
+
+    private fun emptyState(empty: Boolean) {
+        binding.recyclerMovies.isVisible = !empty
+        binding.linearLayoutNotFound.isVisible = empty
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
