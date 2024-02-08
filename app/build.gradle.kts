@@ -105,4 +105,11 @@ dependencies {
     //SearchView - https://github.com/Ferfalk/SimpleSearchView
     implementation("com.github.Ferfalk:SimpleSearchView:0.2.1")
 
+    // Room
+    val roomVersion = rootProject.extra["room_version"]
+
+    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+
 }

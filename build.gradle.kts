@@ -9,6 +9,7 @@ buildscript {
         set("glide_version", "4.16.0")
         set("okhttp_version", "4.10.0")
         set("retrofit_version", "2.9.0")
+        set("room_version", "2.6.1")
     }
 
     dependencies {

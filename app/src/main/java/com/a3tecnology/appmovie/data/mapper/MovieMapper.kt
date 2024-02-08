@@ -1,5 +1,6 @@
 package com.a3tecnology.appmovie.data.mapper
 
+import com.a3tecnology.appmovie.data.local.entity.MovieEntity
 import com.a3tecnology.appmovie.data.model.AuthorDetailsResponse
 import com.a3tecnology.appmovie.data.model.CountryResponse
 import com.a3tecnology.appmovie.data.model.CreditResponse
@@ -39,7 +40,8 @@ fun MovieResponse.toDomain(): Movie {
         video = video,
         voteAverage = voteAverage,
         voteCount = voteCount,
-        productionCountries = productionCountries?.map { it.toDomain() }
+        productionCountries = productionCountries?.map { it.toDomain() },
+        runtime = runtime
 
     )
 }
@@ -104,4 +106,26 @@ fun MovieReviewResponse.toDomain(): MovieReview {
         url = url
     )
 }
+
+fun Movie.toEntity(): MovieEntity {
+    return MovieEntity(
+        id = id,
+        title = title,
+        poster =  posterPath,
+        runtime = runtime,
+        insertion = System.currentTimeMillis()
+    )
+}
+
+fun MovieEntity.toDomain(): Movie {
+    return Movie(
+        id = id,
+        title = title,
+        posterPath =  poster,
+        runtime = runtime
+    )
+}
+
+
+
 
