@@ -85,5 +85,12 @@
     <string name="txt_title_empty_search_fragment">Não encontrado</string>
     <string name="txt_message_empty_search_fragment">Desculpe, a palavra-chave que você digitou não foi encontrada. Tente verificar novamente ou pesquise com outras palavras-chave.</string>
 
+    <!--    DownloadFragment-->
+    <string name="txt_title_download">Download</string>
+    <string name="txt_message_dialog_downloading">Filmes ainda baixando...\nAguarde ou oculte o processo</string>
+    <string name="txt_hide_dialog_downloading">Esconder</string>
+    <string name="txt_downloaded_size_dialog_downloading">%1$s / %2$s</string>
+    <string name="txt_download_progress_dialog_downloading">%1$d%%</string>
+
 
 </resources>

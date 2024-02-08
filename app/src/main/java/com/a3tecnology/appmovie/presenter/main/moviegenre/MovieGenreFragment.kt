@@ -157,6 +157,7 @@ class MovieGenreFragment : Fragment() {
 
 
     }
+
     private fun searchMovie(query: String?) {
 
         movieGenreViewModel.searchMovie(query).observe(viewLifecycleOwner) { stateView ->

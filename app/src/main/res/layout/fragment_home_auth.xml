@@ -135,7 +135,7 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="32dp"
             android:text="@string/button_sign_in_with_password_home_auth_fragment"
-            style="@style/ThemeButton"
+            style="@style/ThemePrimaryButton"
             app:backgroundTint="@null"
             app:layout_constraintTop_toBottomOf="@id/linearLayout_social"
             app:layout_constraintStart_toStartOf="parent"
