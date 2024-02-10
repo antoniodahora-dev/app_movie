@@ -57,7 +57,6 @@ fun Fragment.showSnackBar(
     }
 }
 
-
 fun formatCommentDate(date: String?): String {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
     val providedDate = date?.let { dateFormat.parse(it) }
@@ -86,6 +85,16 @@ fun formatCommentDate(date: String?): String {
                 "$monthsDifference meses atrás"
             }
         }
+    }
+}
+
+fun Double.calculateFileSize(): String {
+    val value = this * 10.0
+
+    return if (value >= 1000) {
+        String.format("%.2f GB", value / 1000)
+    } else {
+        String.format("%.1f MB", value)
     }
 }
 

@@ -148,14 +148,11 @@ class MovieGenreFragment : Fragment() {
                     movieAdapter.submitList(stateView.data)
                     binding.recyclerMovies.isVisible = true
                 }
-
                 is StateView.Error -> {
                     binding.progressBar.isVisible = false
                 }
             }
         }
-
-
     }
 
     private fun searchMovie(query: String?) {

@@ -42,13 +42,13 @@
             android:id="@+id/txt_downloading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1f"
+            android:layout_weight="1"
             android:fontFamily="@font/urbanist_400"
             android:textColor="#212121"
             tools:text="457,2 / 968,5 MB"/>
 
         <TextView
-            android:id="@+id/number_progress"
+            android:id="@+id/txt_number_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/urbanist_400"
@@ -67,7 +67,7 @@
             android:id="@+id/line_progress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1f"
+            android:layout_weight="1"
             android:layout_gravity="center_vertical"
             app:trackThickness="8dp"
             app:trackCornerRadius="100dp"
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_close_black_24dp"
             android:background="@android:color/transparent"
-            android:paddingTop="8dp"
+
             android:paddingStart="8dp"
             android:paddingEnd="0dp"
             tools:ignore="ContentDescription" />

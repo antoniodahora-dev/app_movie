@@ -91,6 +91,7 @@
     <string name="txt_hide_dialog_downloading">Esconder</string>
     <string name="txt_downloaded_size_dialog_downloading">%1$s / %2$s</string>
     <string name="txt_download_progress_dialog_downloading">%1$d%%</string>
+    <string name="txt_btn_download">Download</string>
 
 
 </resources>
