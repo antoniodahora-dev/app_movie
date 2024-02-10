@@ -45,7 +45,7 @@ class MovieDetailsFragment : Fragment() {
 
     private lateinit var dialogDownloading: AlertDialog
 
-    private var movie: Movie? = null
+    private lateinit var movie: Movie
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -116,8 +116,31 @@ class MovieDetailsFragment : Fragment() {
                 }
                 is StateView.Success -> {
 //                    binding.progressBar.isVisible = false
-                    this.movie = stateView.data
-                    configData()
+                     stateView.data?.let {
+                         this.movie = it
+                         configData()
+                    }
+
+                }
+                is StateView.Error -> {
+//                    binding.progressBar.isVisible = false
+                }
+            }
+
+        }
+    }
+
+    private fun insertMovie() {
+
+        viewMovieDetails.insertMovie(movie).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+
+                is StateView.Loading -> {
+//                    binding.progressBar.isVisible = true
+                }
+                is StateView.Success -> {
+//                    binding.progressBar.isVisible = false
+                        configData()
                 }
                 is StateView.Error -> {
 //                    binding.progressBar.isVisible = false
@@ -165,24 +188,24 @@ class MovieDetailsFragment : Fragment() {
 
         Glide
             .with(requireContext())
-            .load("https://image.tmdb.org/t/p/w500${movie?.posterPath}")
+            .load("https://image.tmdb.org/t/p/w500${movie.backdropPath}")
             .into(binding.imagePostMovie)
 
-        binding.txtTitleMovieDetail.text = movie?.title
-        binding.txtVoteAverage.text = String.format("%.1f", movie?.voteAverage)
+        binding.txtTitleMovieDetail.text = movie.title
+        binding.txtVoteAverage.text = String.format("%.1f", movie.voteAverage)
 
         val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ROOT)
-        val data = originalFormat.parse(movie?.releaseDate ?: "")
+        val data = originalFormat.parse(movie.releaseDate ?: "")
         val yearFormat = SimpleDateFormat("yyyy", Locale.ROOT)
-        val year = yearFormat.format(data)
+        val year = data?.let { yearFormat.format(it) }
 
         binding.txtAge.text = year
-        binding.txtCountry.text = movie?.productionCountries?.get(0)?.name ?: ""
+        binding.txtCountry.text = movie.productionCountries?.get(0)?.name ?: ""
 
-        val genre = movie?.genres?.map {it.name }?.joinToString(" , ")
+        val genre = movie.genres?.map {it.name }?.joinToString(" , ")
         binding.txtGenres.text = getString(R.string.txt_all_genres_movie_detail, genre)
 
-        binding.txtDescription.text = movie?.overview
+        binding.txtDescription.text = movie.overview
 
         getCredit()
 
@@ -193,7 +216,7 @@ class MovieDetailsFragment : Fragment() {
 
         var progress = 0
         var downloaded = 0.0
-        val movieDuration =  movie?.runtime?.toDouble() ?: 0.0
+        val movieDuration =  movie.runtime?.toDouble() ?: 0.0
 
         //bar progress and TextView progress
         val handle = Handler(Looper.getMainLooper())
@@ -217,6 +240,7 @@ class MovieDetailsFragment : Fragment() {
 
                     handle.postDelayed(this, 50)
                 } else {
+                    insertMovie()
                     dialogDownloading.dismiss()
                 }
 

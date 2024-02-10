@@ -62,4 +62,5 @@ class HomeViewModel @Inject constructor(
             emit(StateView.Error(message = e.message))
         }
     }
+
 }

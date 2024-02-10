@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.a3tecnology.appmovie.BuildConfig
+import com.a3tecnology.appmovie.domain.local.usecase.InsertMoviesUseCase
+import com.a3tecnology.appmovie.domain.model.Movie
 import com.a3tecnology.appmovie.domain.usecase.movie.GetCreditUseCase
 import com.a3tecnology.appmovie.domain.usecase.movie.GetMovieDetailsUseCase
 import com.a3tecnology.appmovie.util.Constants
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     private val getMovieDetailsUseCas: GetMovieDetailsUseCase,
-    private val getCreditUseCase: GetCreditUseCase
+    private val getCreditUseCase: GetCreditUseCase,
+    private val insertMoviesUseCase: InsertMoviesUseCase
 ) : ViewModel() {
 
     private val _movieId = MutableLiveData(0)
@@ -65,6 +68,20 @@ class MovieDetailsViewModel @Inject constructor(
             emit(StateView.Error(message = e.message))
         }
 
+    }
+
+    fun insertMovie(movie: Movie) = liveData(Dispatchers.IO) {
+
+        try {
+            emit(StateView.Loading())
+
+            insertMoviesUseCase(movie)
+            emit(StateView.Success(Unit))
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(StateView.Error(message = e.message))
+        }
     }
 
     fun setMovieId(movieId: Int) {

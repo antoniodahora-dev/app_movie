@@ -7,8 +7,10 @@ import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.a3tecnology.appmovie.MainGraphDirections
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.FragmentDownloadBinding
@@ -24,6 +26,8 @@ class DownloadFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var downloadAdapter: DownloadMovieAdapter
+
+    private val downloadViewModel: DownloadViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +46,18 @@ class DownloadFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRecycler()
+        getObservers()
+        getData()
         initSearchView()
+    }
+
+    private fun getData() {
+        downloadViewModel.getMovie()
+    }
+    private fun getObservers() {
+        downloadViewModel.movieList.observe(viewLifecycleOwner) { movies ->
+            downloadAdapter.submitList(movies)
+        }
     }
 
     private fun initRecycler() {
@@ -66,10 +81,11 @@ class DownloadFragment : Fragment() {
 
         with(binding.recyclerDownload) {
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(requireContext(), 2)
+            layoutManager = LinearLayoutManager(requireContext())
             adapter = downloadAdapter
         }
     }
+
     private fun initSearchView() {
         binding.searchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
