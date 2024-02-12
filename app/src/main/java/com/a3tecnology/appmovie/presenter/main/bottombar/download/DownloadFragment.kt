@@ -6,6 +6,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,10 +15,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.a3tecnology.appmovie.MainGraphDirections
 import com.a3tecnology.appmovie.R
+import com.a3tecnology.appmovie.databinding.BottomSheetDeleteMovieBinding
 import com.a3tecnology.appmovie.databinding.FragmentDownloadBinding
+import com.a3tecnology.appmovie.domain.model.Movie
 import com.a3tecnology.appmovie.presenter.main.bottombar.download.adapter.DownloadMovieAdapter
+import com.a3tecnology.appmovie.util.calculateFileSize
+import com.a3tecnology.appmovie.util.calculateMovieTime
 import com.a3tecnology.appmovie.util.hideKeyboard
+import com.a3tecnology.appmovie.util.initToolbar
+import com.bumptech.glide.Glide
 import com.ferfalk.simplesearchview.SimpleSearchView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,19 +54,34 @@ class DownloadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initToolbar(toolbar = binding.toolbar, showIconNavigation = false)
+
         initRecycler()
-        getObservers()
+        initObservers()
         getData()
         initSearchView()
+        initListeners()
     }
 
     private fun getData() {
         downloadViewModel.getMovie()
     }
-    private fun getObservers() {
+
+    private fun initObservers() {
         downloadViewModel.movieList.observe(viewLifecycleOwner) { movies ->
             downloadAdapter.submitList(movies)
+            emptyState(empty = movies.isEmpty())
         }
+
+        downloadViewModel.movieSearchList.observe(viewLifecycleOwner) { movies ->
+            downloadAdapter.submitList(movies)
+            emptyState(empty = movies.isEmpty())
+        }
+    }
+
+    private fun initListeners() {
+        initSearchView()
+        onBackPressed()
     }
 
     private fun initRecycler() {
@@ -74,8 +98,8 @@ class DownloadFragment : Fragment() {
                 }
             } ,
 
-            deleteClickListener = { movieId ->
-
+            deleteClickListener = { movie ->
+                showBottomSheetDeleteMovie(movie)
             }
         )
 
@@ -86,19 +110,65 @@ class DownloadFragment : Fragment() {
         }
     }
 
+    private fun showBottomSheetDeleteMovie(movie: Movie?) {
+
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
+        val bottomSheetBinding = BottomSheetDeleteMovieBinding.inflate(
+            layoutInflater, null, false)
+
+
+        Glide
+            .with(requireContext())
+            .load("https://image.tmdb.org/t/p/w200${movie?.posterPath}")
+            .into(bottomSheetBinding.ivMovie)
+
+        bottomSheetBinding.textMovie.text = movie?.title
+        bottomSheetBinding.textDuration.text = movie?.runtime?.calculateMovieTime()
+        bottomSheetBinding.textSize.text = movie?.runtime?.toDouble()?.calculateFileSize()
+
+
+        bottomSheetBinding.btnCancel.setOnClickListener { bottomSheetDialog.dismiss() }
+        bottomSheetBinding.btnConfirm.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            downloadViewModel.deleteMovie(movie?.id)
+        }
+
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        bottomSheetDialog.show()
+    }
+
+    private fun emptyState(empty: Boolean) {
+        binding.recyclerDownload.isVisible = !empty
+        binding.linearLayoutNotFound.isVisible = empty
+
+    }
+
+    private fun onBackPressed() {
+        requireActivity().onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                   if (binding.searchView.isVisible) {
+                       binding.searchView.closeSearch()
+                   } else {
+                       findNavController().popBackStack()
+                   }
+                }
+            })
+    }
+
     private fun initSearchView() {
         binding.searchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
 
-                hideKeyboard()
-
-                if (query.isNotEmpty()) {
-//                    searchMovie(query)
-                }
-                return true
+                return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
+
+                if (newText.isNotBlank() || newText.isEmpty()) {
+                    downloadViewModel.searchMovie(newText)
+                }
                 return false
             }
 
@@ -109,7 +179,7 @@ class DownloadFragment : Fragment() {
 
         binding.searchView.setOnSearchViewListener(object : SimpleSearchView.SearchViewListener {
             override fun onSearchViewClosed() {
-//                getMovieGenre()
+                downloadViewModel.getMovie()
             }
 
             override fun onSearchViewClosedAnimation() {}

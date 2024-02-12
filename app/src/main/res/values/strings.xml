@@ -87,11 +87,23 @@
 
     <!--    DownloadFragment-->
     <string name="txt_title_download">Download</string>
+    <string name="txt_title_message_empty_state_download">Sua Lista está vazia.</string>
+    <string name="txt_message_empty_search_download">Parece que você não realizou o Download de nenhum filme.</string>
+
+
+    <!--    DialogFragment-->
     <string name="txt_message_dialog_downloading">Filmes ainda baixando...\nAguarde ou oculte o processo</string>
     <string name="txt_hide_dialog_downloading">Esconder</string>
     <string name="txt_downloaded_size_dialog_downloading">%1$s / %2$s</string>
     <string name="txt_download_progress_dialog_downloading">%1$d%%</string>
     <string name="txt_btn_download">Download</string>
+
+
+    <!--    BottomSheetDeleteMovie-->
+    <string name="txt_title_delete_movie">Delete</string>
+    <string name="txt_message_delete_bottom_sheet">Tem certeza de que deseja excluir o download deste filme?</string>
+    <string name="txt_btn_cancel_bottom_sheet">Cancelar</string>
+    <string name="txt_btn_confirm_bottom_sheet">Sim, Deletar</string>
 
 
 </resources>
