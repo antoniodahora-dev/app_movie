@@ -10,18 +10,21 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.a3tecnology.appmovie.MainGraphDirections
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.FragmentMovieGenreBinding
-import com.a3tecnology.appmovie.presenter.main.bottombar.home.adapter.MovieAdapter
+import com.a3tecnology.appmovie.presenter.main.moviegenre.adapter.MoviePagingAdapter
 import com.a3tecnology.appmovie.util.StateView
 import com.a3tecnology.appmovie.util.hideKeyboard
 import com.a3tecnology.appmovie.util.initToolbar
 import com.ferfalk.simplesearchview.SimpleSearchView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -34,7 +37,7 @@ class MovieGenreFragment : Fragment() {
 
     private val movieGenreViewModel: MovieGenreViewModel by viewModels()
 
-    private lateinit var movieAdapter: MovieAdapter
+    private lateinit var moviePagingAdapter: MoviePagingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,15 +60,14 @@ class MovieGenreFragment : Fragment() {
         binding.txtTitle.text = args.name
 
         initRecycler()
-        getMovieGenre()
+        getByMovieGenre()
         initSearchView()
     }
 
     private fun initRecycler() {
 
-        movieAdapter = MovieAdapter(
+        moviePagingAdapter = MoviePagingAdapter(
             requireContext(),
-            layoutInflater = R.layout.movie_genre_item,
             movieClickListener = { movieId ->
 
                 movieId?.let {
@@ -80,7 +82,7 @@ class MovieGenreFragment : Fragment() {
         with(binding.recyclerMovies) {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(requireContext(), 2)
-            adapter = movieAdapter
+            adapter = moviePagingAdapter
         }
     }
 
@@ -109,7 +111,7 @@ class MovieGenreFragment : Fragment() {
 
         binding.searchView.setOnSearchViewListener(object : SimpleSearchView.SearchViewListener {
             override fun onSearchViewClosed() {
-                getMovieGenre()
+                getByMovieGenre()
             }
 
             override fun onSearchViewClosedAnimation() {
@@ -134,25 +136,32 @@ class MovieGenreFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun getMovieGenre() {
+    private fun getByMovieGenre(forceRequest: Boolean = false) {
 
-        movieGenreViewModel.getMovieByGenre(args.genreId).observe(viewLifecycleOwner) { stateView ->
-
-            when (stateView) {
-                is StateView.Loading -> {
-                    binding.recyclerMovies.isVisible = false
-                    binding.progressBar.isVisible = true
-                }
-                is StateView.Success -> {
-                    binding.progressBar.isVisible = false
-                    movieAdapter.submitList(stateView.data)
-                    binding.recyclerMovies.isVisible = true
-                }
-                is StateView.Error -> {
-                    binding.progressBar.isVisible = false
-                }
+        lifecycleScope.launch {
+            movieGenreViewModel.getMovieByGenre(genreId = args.genreId, forceRequest = forceRequest)
+            movieGenreViewModel.movieList.collectLatest { pagingData ->
+                moviePagingAdapter.submitData(pagingData)
             }
         }
+
+//        movieGenreViewModel.getMovieByGenre(args.genreId).observe(viewLifecycleOwner) { stateView ->
+//
+//            when (stateView) {
+//                is StateView.Loading -> {
+//                    binding.recyclerMovies.isVisible = false
+//                    binding.progressBar.isVisible = true
+//                }
+//                is StateView.Success -> {
+//                    binding.progressBar.isVisible = false
+//                    movieAdapter.submitList(stateView.data)
+//                    binding.recyclerMovies.isVisible = true
+//                }
+//                is StateView.Error -> {
+//                    binding.progressBar.isVisible = false
+//                }
+//            }
+//        }
     }
 
     private fun searchMovie(query: String?) {
@@ -167,7 +176,8 @@ class MovieGenreFragment : Fragment() {
                 }
                 is StateView.Success -> {
                     binding.progressBar.isVisible = false
-                    movieAdapter.submitList(stateView.data)
+                    getByMovieGenre(forceRequest = true)
+//                    movieAdapter.submitList(stateView.data)
                     binding.recyclerMovies.isVisible = true
                 }
 

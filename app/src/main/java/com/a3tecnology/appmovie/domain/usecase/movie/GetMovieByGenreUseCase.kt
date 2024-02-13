@@ -1,19 +1,45 @@
 package com.a3tecnology.appmovie.domain.usecase.movie
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.a3tecnology.appmovie.data.mapper.toDomain
-import com.a3tecnology.appmovie.domain.model.Genre
 import com.a3tecnology.appmovie.domain.model.Movie
 import com.a3tecnology.appmovie.domain.repository.movie.MovieRepository
+import com.a3tecnology.appmovie.util.Constants.Paging.DEFAULT_PAGE_INDEX
+import com.a3tecnology.appmovie.util.Constants.Paging.NETWORK_PAGE_SIZE
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetMovieByGenreUseCase @Inject constructor(
     private val repository: MovieRepository
 ) {
-    suspend operator fun invoke(apiKey: String, language: String?, genreId: Int?): List<Movie> {
-        return repository.getMovieByGenre(
+
+    operator fun invoke(
+        apiKey: String,
+        language: String?,
+        genreId: Int?
+    ): Flow<PagingData<Movie>> = Pager(
+
+        config = PagingConfig(
+            pageSize = NETWORK_PAGE_SIZE,
+            enablePlaceholders = false,
+            initialLoadSize = DEFAULT_PAGE_INDEX
+        ),
+        pagingSourceFactory = {
+            repository.getMovieByGenre(
             apiKey = apiKey,
             language = language,
-            genreId =  genreId
-        ).map { it.toDomain() }
+            genreId = genreId
+        )
+        }
+    ).flow.map { pagingData ->
+        pagingData.map { movieResponse ->
+            movieResponse.toDomain()
+        }
     }
+
+
 }

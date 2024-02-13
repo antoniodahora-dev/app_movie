@@ -1,5 +1,6 @@
 package com.a3tecnology.appmovie.domain.repository.movie
 
+import androidx.paging.PagingSource
 import com.a3tecnology.appmovie.data.model.GenresResponse
 import com.a3tecnology.appmovie.data.model.MovieResponse
 
@@ -9,10 +10,11 @@ interface MovieRepository {
         apiKey: String?,
         language: String?): GenresResponse
 
-    suspend fun getMovieByGenre(
+     fun getMovieByGenre(
         apiKey: String?,
         language: String?,
-        genreId: Int?): List<MovieResponse>
+        genreId: Int?
+     ): PagingSource<Int, MovieResponse>
 
     suspend fun searchMovie(
         apiKey: String?,

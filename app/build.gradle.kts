@@ -112,4 +112,8 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
+    //Paging
+    val pagingVersion = rootProject.extra["paging_version"]
+    implementation("androidx.paging:paging-runtime:$pagingVersion")
+
 }

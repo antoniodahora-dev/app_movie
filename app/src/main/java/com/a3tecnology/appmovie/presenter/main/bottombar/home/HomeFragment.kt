@@ -96,7 +96,7 @@ class HomeFragment : Fragment() {
                 when (stateView) {
                     is StateView.Loading -> {}
                     is StateView.Success -> {
-                        genreMutableList[index] = genre.copy(movies = stateView.data?.take(6))
+//                        genreMutableList[index] = genre.copy(movies = stateView.data?.take(6))
 
                         //add delay of 1 seg
                         lifecycleScope.launch {

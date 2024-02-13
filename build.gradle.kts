@@ -10,6 +10,7 @@ buildscript {
         set("okhttp_version", "4.10.0")
         set("retrofit_version", "2.9.0")
         set("room_version", "2.6.1")
+        set("paging_version", "3.1.1")
     }
 
     dependencies {
