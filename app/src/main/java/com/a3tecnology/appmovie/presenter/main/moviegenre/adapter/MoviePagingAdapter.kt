@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.a3tecnology.appmovie.databinding.MovieGenreItemBinding
 import com.a3tecnology.appmovie.domain.model.Movie
+import com.a3tecnology.appmovie.util.circularProgressDrawable
 import com.bumptech.glide.Glide
 
 class MoviePagingAdapter(
     private val context: Context,
     private val movieClickListener: (Int?) -> Unit
-
 ): PagingDataAdapter<Movie, MoviePagingAdapter.MyViewHolder>(DIFF_UTIL) {
 
     companion object {
@@ -46,6 +46,7 @@ class MoviePagingAdapter(
         Glide
             .with(context)
             .load("https://image.tmdb.org/t/p/w500${movie?.posterPath}")
+            .placeholder(context.circularProgressDrawable())
 //            .error(R.drawable.movie) - caso o item não contenha image
             .into(holder.binding.movieImage)
 

@@ -94,7 +94,7 @@ class HomeFragment : Fragment() {
             homeViewModel.getMovieByGenre(genre.id).observe(viewLifecycleOwner) { stateView ->
 
                 when (stateView) {
-                    is StateView.Loading -> {}
+                    is StateView.Loading -> { }
                     is StateView.Success -> {
 //                        genreMutableList[index] = genre.copy(movies = stateView.data?.take(6))
 

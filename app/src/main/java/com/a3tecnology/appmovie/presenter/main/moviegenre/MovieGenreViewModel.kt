@@ -29,6 +29,7 @@ class MovieGenreViewModel @Inject constructor(
     val movieList get() = _movieList.asStateFlow()
 
     private var currentGenreId: Int? = null
+
     fun getMovieByGenre(genreId: Int?, forceRequest: Boolean) = viewModelScope.launch {
         if (genreId != currentGenreId || forceRequest) {
 

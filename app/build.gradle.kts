@@ -116,4 +116,11 @@ dependencies {
     val pagingVersion = rootProject.extra["paging_version"]
     implementation("androidx.paging:paging-runtime:$pagingVersion")
 
+    // Shimmer
+    val shimmerVersion = rootProject.extra["shimmer_version"]
+    implementation("com.facebook.shimmer:shimmer:$shimmerVersion")
+
+    // Swiperefreshlayout
+    val swiperVersion = rootProject.extra["swipe_version"]
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:$swiperVersion")
 }

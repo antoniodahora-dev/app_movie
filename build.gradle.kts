@@ -11,6 +11,8 @@ buildscript {
         set("retrofit_version", "2.9.0")
         set("room_version", "2.6.1")
         set("paging_version", "3.1.1")
+        set("shimmer_version", "0.5.0")
+        set("swipe_version", "1.1.0")
     }
 
     dependencies {

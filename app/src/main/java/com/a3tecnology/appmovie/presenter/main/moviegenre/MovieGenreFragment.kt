@@ -7,16 +7,19 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.a3tecnology.appmovie.MainGraphDirections
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.FragmentMovieGenreBinding
+import com.a3tecnology.appmovie.presenter.main.moviegenre.adapter.LoadStatePagingAdapter
 import com.a3tecnology.appmovie.presenter.main.moviegenre.adapter.MoviePagingAdapter
 import com.a3tecnology.appmovie.util.StateView
 import com.a3tecnology.appmovie.util.hideKeyboard
@@ -79,10 +82,58 @@ class MovieGenreFragment : Fragment() {
             }
         )
 
+        lifecycleScope.launch {
+            moviePagingAdapter.loadStateFlow.collectLatest { loadState ->
+                when (loadState.refresh) {
+                    is LoadState.Loading -> {
+                        binding.recyclerMovies.isVisible = false
+                        binding.shimmer.startShimmer()
+                        binding.shimmer.isVisible = true
+//                        binding.progressBar.isVisible = true
+                    }
+                    is LoadState.NotLoading -> {
+                        binding.shimmer.stopShimmer()
+                        binding.recyclerMovies.isVisible = true
+                        binding.shimmer.isVisible = false
+//                        binding.progressBar.isVisible = false
+                    }
+                    is LoadState.Error ->  {
+                        binding.shimmer.stopShimmer()
+                        binding.shimmer.isVisible = false
+                        binding.recyclerMovies.isVisible = false
+//                        binding.progressBar.isVisible = false
+
+                        val error = (loadState.refresh as LoadState.Error).error.message ?:
+                        "Ocorreu um erro. Tente novamente mais tarde!"
+                        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+
         with(binding.recyclerMovies) {
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(requireContext(), 2)
-            adapter = moviePagingAdapter
+
+            val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+            layoutManager = gridLayoutManager
+
+            val footerAdapter = moviePagingAdapter.withLoadStateFooter(
+                footer = LoadStatePagingAdapter()
+            )
+
+            adapter = footerAdapter
+
+            gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return if (position == moviePagingAdapter.itemCount
+                        && footerAdapter.itemCount > 0) {
+                        2
+                    } else {
+                        1
+                    }
+                }
+            }
+
         }
     }
 
@@ -145,23 +196,6 @@ class MovieGenreFragment : Fragment() {
             }
         }
 
-//        movieGenreViewModel.getMovieByGenre(args.genreId).observe(viewLifecycleOwner) { stateView ->
-//
-//            when (stateView) {
-//                is StateView.Loading -> {
-//                    binding.recyclerMovies.isVisible = false
-//                    binding.progressBar.isVisible = true
-//                }
-//                is StateView.Success -> {
-//                    binding.progressBar.isVisible = false
-//                    movieAdapter.submitList(stateView.data)
-//                    binding.recyclerMovies.isVisible = true
-//                }
-//                is StateView.Error -> {
-//                    binding.progressBar.isVisible = false
-//                }
-//            }
-//        }
     }
 
     private fun searchMovie(query: String?) {
@@ -171,18 +205,24 @@ class MovieGenreFragment : Fragment() {
             when (stateView) {
                 is StateView.Loading -> {
                     binding.recyclerMovies.isVisible = false
-                    binding.progressBar.isVisible = true
+                    binding.shimmer.startShimmer()
+                    binding.shimmer.isVisible = true
+//                    binding.progressBar.isVisible = true
 
                 }
                 is StateView.Success -> {
-                    binding.progressBar.isVisible = false
+                    binding.shimmer.stopShimmer()
+                    binding.shimmer.isVisible = false
+//                    binding.progressBar.isVisible = false
                     getByMovieGenre(forceRequest = true)
 //                    movieAdapter.submitList(stateView.data)
                     binding.recyclerMovies.isVisible = true
                 }
 
                 is StateView.Error -> {
-                    binding.progressBar.isVisible = false
+                    binding.shimmer.stopShimmer()
+                    binding.shimmer.isVisible = false
+//                    binding.progressBar.isVisible = false
                 }
             }
         }
