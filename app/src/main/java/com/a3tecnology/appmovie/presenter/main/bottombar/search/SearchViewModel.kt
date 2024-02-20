@@ -35,12 +35,10 @@ class SearchViewModel @Inject constructor(
                 _searchState.postValue(StateView.Loading())
 
                 val search = searchMovieUseCase(
-                    apiKey = BuildConfig.API_KEY,
-                    language = Constants.Movie.LANGUAGE,
                     query = query
                 )
 
-                _movieList.postValue(search)
+//                _movieList.postValue(search)
                 _searchState.postValue(StateView.Success(Unit))
 
             } catch (e: Exception) {

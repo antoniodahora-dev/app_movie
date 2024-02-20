@@ -8,9 +8,9 @@ import com.a3tecnology.appmovie.data.model.MovieResponse
 import com.a3tecnology.appmovie.util.Constants
 import com.a3tecnology.appmovie.util.Constants.Paging.DEFAULT_PAGE_INDEX
 
-class MovieByGenrePagingSource(
+class SearchMoviePagingSource(
    private val serviceApi: ServiceApi,
-   private val genreId: Int?
+   private val query: String?
 ) : PagingSource<Int, MovieResponse>() {
     override suspend fun load(
         params: LoadParams<Int>
@@ -18,8 +18,8 @@ class MovieByGenrePagingSource(
         return try {
 
             val page = params.key ?: DEFAULT_PAGE_INDEX
-            val result = serviceApi.getMovieByGenre(
-                genreId = genreId,
+            val result = serviceApi.searchMovie(
+                query = query,
                 page = page
             ).results ?: emptyList()
             LoadResult.Page(

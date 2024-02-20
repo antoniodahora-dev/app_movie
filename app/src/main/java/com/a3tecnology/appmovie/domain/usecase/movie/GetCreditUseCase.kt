@@ -8,11 +8,9 @@ import javax.inject.Inject
 class GetCreditUseCase @Inject constructor(
     private val repository: MovieDetailsRepository
 ) {
-    suspend operator fun invoke(apiKey: String, language: String?, movieId: Int?): Credit {
+    suspend operator fun invoke( movieId: Int?): Credit {
         return repository.getCredits(
-            apiKey = apiKey,
-            language = language,
-            movieId = movieId
+           movieId = movieId
         ).toDomain()
     }
 }

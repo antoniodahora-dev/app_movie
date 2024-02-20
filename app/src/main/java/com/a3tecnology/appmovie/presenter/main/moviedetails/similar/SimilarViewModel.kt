@@ -21,8 +21,6 @@ class SimilarViewModel @Inject constructor(
             emit(StateView.Loading())
 
             val movies = getSimilarUseCase.invoke(
-                apiKey = BuildConfig.API_KEY,
-                language = Movie.LANGUAGE,
                 movieId = movieId
             )
 

@@ -13,6 +13,7 @@ import com.a3tecnology.appmovie.util.Constants
 import com.a3tecnology.appmovie.util.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -36,8 +37,6 @@ class MovieGenreViewModel @Inject constructor(
             currentGenreId = genreId
 
             getMovieByGenreUseCase(
-                apiKey = BuildConfig.API_KEY,
-                language = Constants.Movie.LANGUAGE,
                 genreId = genreId
             ).cachedIn(viewModelScope).collectLatest {
                 _movieList.emit(it)
@@ -45,6 +44,14 @@ class MovieGenreViewModel @Inject constructor(
         }
 
     }
+
+
+    fun searchMovie(query: String?) : Flow<PagingData<Movie>> {
+       return searchMovieUseCase(
+                query = query
+            ).cachedIn(viewModelScope)
+        }
+
 
 //    fun getMovieByGenre2(genreId: Int?) = liveData(Dispatchers.IO) {
 //
@@ -69,26 +76,26 @@ class MovieGenreViewModel @Inject constructor(
 //        }
 //    }
 
-    fun searchMovie(query: String?) = liveData(Dispatchers.IO) {
-
-        try {
-            emit(StateView.Loading())
-
-            val search = searchMovieUseCase.invoke(
-                apiKey = BuildConfig.API_KEY,
-                language = Constants.Movie.LANGUAGE,
-                query = query
-            )
-
-            emit(StateView.Success(search))
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(StateView.Error(message = e.message))
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(StateView.Error(message = e.message))
-        }
-    }
+//    fun searchMovie(query: String?) = liveData(Dispatchers.IO) {
+//
+//        try {
+//            emit(StateView.Loading())
+//
+//            val search = searchMovieUseCase.invoke(
+//                apiKey = BuildConfig.API_KEY,
+//                language = Constants.Movie.LANGUAGE,
+//                query = query
+//            )
+//
+//            emit(StateView.Success(search))
+//
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            emit(StateView.Error(message = e.message))
+//
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            emit(StateView.Error(message = e.message))
+//        }
+//    }
 }

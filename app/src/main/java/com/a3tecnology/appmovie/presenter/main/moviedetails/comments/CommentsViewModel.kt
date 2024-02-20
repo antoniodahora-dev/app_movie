@@ -24,8 +24,6 @@ class CommentsViewModel @Inject constructor(
             emit(StateView.Loading())
 
             val movieReviewsDetails = getMovieReviewsUseCase.invoke(
-                apiKey = BuildConfig.API_KEY,
-                language = Constants.Movie.LANGUAGE_ENGLISH,
                 movieId = movieId
             )
             emit(StateView.Success(movieReviewsDetails))

@@ -8,11 +8,8 @@ import javax.inject.Inject
 class GetMovieReviewsUseCase @Inject constructor(
     private val repository: MovieDetailsRepository
 ) {
-    suspend operator fun invoke(apiKey: String, language: String?, movieId: Int?): List<MovieReview> {
-        return repository.getMovieReviews(
-            apiKey = apiKey,
-            language = language,
-            movieId = movieId
+    suspend operator fun invoke( movieId: Int?): List<MovieReview> {
+        return repository.getMovieReviews(movieId = movieId
         ).map { it.toDomain() }
     }
 }

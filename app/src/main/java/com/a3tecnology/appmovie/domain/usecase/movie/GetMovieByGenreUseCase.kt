@@ -18,8 +18,6 @@ class GetMovieByGenreUseCase @Inject constructor(
 ) {
 
     operator fun invoke(
-        apiKey: String,
-        language: String?,
         genreId: Int?
     ): Flow<PagingData<Movie>> = Pager(
 
@@ -30,8 +28,6 @@ class GetMovieByGenreUseCase @Inject constructor(
         ),
         pagingSourceFactory = {
             repository.getMovieByGenre(
-            apiKey = apiKey,
-            language = language,
             genreId = genreId
         )
         }
@@ -40,6 +36,5 @@ class GetMovieByGenreUseCase @Inject constructor(
             movieResponse.toDomain()
         }
     }
-
 
 }

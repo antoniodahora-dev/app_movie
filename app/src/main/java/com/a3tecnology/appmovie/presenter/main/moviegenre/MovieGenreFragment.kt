@@ -200,33 +200,11 @@ class MovieGenreFragment : Fragment() {
 
     private fun searchMovie(query: String?) {
 
-        movieGenreViewModel.searchMovie(query).observe(viewLifecycleOwner) { stateView ->
-
-            when (stateView) {
-                is StateView.Loading -> {
-                    binding.recyclerMovies.isVisible = false
-                    binding.shimmer.startShimmer()
-                    binding.shimmer.isVisible = true
-//                    binding.progressBar.isVisible = true
-
-                }
-                is StateView.Success -> {
-                    binding.shimmer.stopShimmer()
-                    binding.shimmer.isVisible = false
-//                    binding.progressBar.isVisible = false
-                    getByMovieGenre(forceRequest = true)
-//                    movieAdapter.submitList(stateView.data)
-                    binding.recyclerMovies.isVisible = true
-                }
-
-                is StateView.Error -> {
-                    binding.shimmer.stopShimmer()
-                    binding.shimmer.isVisible = false
-//                    binding.progressBar.isVisible = false
-                }
+        lifecycleScope.launch {
+            movieGenreViewModel.searchMovie(query).collectLatest { pagingData ->
+                moviePagingAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
             }
         }
-
 
     }
 
