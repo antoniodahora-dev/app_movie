@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
 
-      extra.apply {
+    extra.apply {
         set("splashscreen_version", "1.0.0")
         set("hilt_version", "2.48")
         set("viewModel_version", "2.7.0")
@@ -13,10 +13,11 @@ buildscript {
         set("paging_version", "3.1.1")
         set("shimmer_version", "0.5.0")
         set("swipe_version", "1.1.0")
+        set("lottie_version", "6.0.0")
     }
 
     dependencies {
-         val navVersion = rootProject.extra["nav_version"]
+        val navVersion = rootProject.extra["nav_version"]
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion")
     }
 }

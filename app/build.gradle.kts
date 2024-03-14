@@ -72,6 +72,10 @@ dependencies {
     val splashscreenVersion = rootProject.extra["splashscreen_version"]
     implementation("androidx.core:core-splashscreen:$splashscreenVersion")
 
+    //lottie Android
+    val lottieVersion = rootProject.extra["lottie_version"]
+    implementation("com.airbnb.android:lottie:$lottieVersion")
+
     // Dagger Hilt
     val hiltVersion = rootProject.extra["hilt_version"]
     implementation("com.google.dagger:hilt-android:$hiltVersion")

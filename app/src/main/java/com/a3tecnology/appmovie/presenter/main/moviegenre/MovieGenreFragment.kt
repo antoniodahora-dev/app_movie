@@ -205,7 +205,6 @@ class MovieGenreFragment : Fragment() {
                 moviePagingAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
             }
         }
-
     }
 
     override fun onDestroy() {
