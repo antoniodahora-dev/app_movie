@@ -22,6 +22,7 @@ import com.a3tecnology.appmovie.presenter.main.moviegenre.adapter.LoadStatePagin
 import com.a3tecnology.appmovie.presenter.main.moviegenre.adapter.MoviePagingAdapter
 import com.a3tecnology.appmovie.util.StateView
 import com.a3tecnology.appmovie.util.hideKeyboard
+import com.a3tecnology.appmovie.util.onNavigate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -74,7 +75,7 @@ class SearchFragment : Fragment() {
                     val action = MainGraphDirections
                         .actionGlobalMovieDetailsFragment(movieId)
 
-                    findNavController().navigate(action)
+                    findNavController().onNavigate(action)
                 }
             }
         )

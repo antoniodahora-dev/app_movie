@@ -24,6 +24,7 @@ import com.a3tecnology.appmovie.presenter.main.moviegenre.adapter.MoviePagingAda
 import com.a3tecnology.appmovie.util.StateView
 import com.a3tecnology.appmovie.util.hideKeyboard
 import com.a3tecnology.appmovie.util.initToolbar
+import com.a3tecnology.appmovie.util.onNavigate
 import com.ferfalk.simplesearchview.SimpleSearchView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -77,7 +78,7 @@ class MovieGenreFragment : Fragment() {
                     val action = MainGraphDirections
                         .actionGlobalMovieDetailsFragment(movieId)
 
-                    findNavController().navigate(action)
+                    findNavController().onNavigate(action)
                 }
             }
         )

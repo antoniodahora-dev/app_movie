@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.FragmentSplashBinding
+import com.a3tecnology.appmovie.util.onNavigate
 
 
 class SplashFragment : Fragment() {

@@ -10,6 +10,7 @@ import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.FragmentHomeAuthBinding
 import com.a3tecnology.appmovie.databinding.FragmentHomeBinding
 import com.a3tecnology.appmovie.databinding.FragmentRegisterBinding
+import com.a3tecnology.appmovie.util.onNavigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,12 +36,11 @@ class HomeAuthFragment : Fragment() {
 
     private fun initListener() {
         binding.btnSign.setOnClickListener {
-            findNavController().navigate(R.id.action_homeAuthFragment_to_loginFragment)
+            findNavController().onNavigate(R.id.action_homeAuthFragment_to_loginFragment)
         }
         binding.btnRegisterUp.setOnClickListener {
-            findNavController().navigate(R.id.action_homeAuthFragment_to_registerFragment)
+            findNavController().onNavigate(R.id.action_homeAuthFragment_to_registerFragment)
         }
-
     }
 
     override fun onDestroy() {

@@ -17,6 +17,7 @@ import com.a3tecnology.appmovie.util.StateView
 import com.a3tecnology.appmovie.util.hideKeyboard
 import com.a3tecnology.appmovie.util.initToolbar
 import com.a3tecnology.appmovie.util.isEmailValid
+import com.a3tecnology.appmovie.util.onNavigate
 import com.a3tecnology.appmovie.util.showSnackBar
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,7 +50,7 @@ class LoginFragment : Fragment() {
     private fun initListeners() {
         binding.btnLogin.setOnClickListener { validateData() }
         binding.btnForgotLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_forgotFragment)
+            findNavController().onNavigate(R.id.action_loginFragment_to_forgotFragment)
         }
 
         Glide

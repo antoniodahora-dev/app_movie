@@ -23,6 +23,7 @@ import com.a3tecnology.appmovie.util.calculateFileSize
 import com.a3tecnology.appmovie.util.calculateMovieTime
 import com.a3tecnology.appmovie.util.hideKeyboard
 import com.a3tecnology.appmovie.util.initToolbar
+import com.a3tecnology.appmovie.util.onNavigate
 import com.bumptech.glide.Glide
 import com.ferfalk.simplesearchview.SimpleSearchView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -94,7 +95,7 @@ class DownloadFragment : Fragment() {
                     val action = MainGraphDirections
                         .actionGlobalMovieDetailsFragment(movieId)
 
-                    findNavController().navigate(action)
+                    findNavController().onNavigate(action)
                 }
             } ,
 

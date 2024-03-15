@@ -2,11 +2,11 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
-    kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("androidx.navigation.safeargs")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -53,7 +53,7 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     // Test
@@ -79,7 +79,7 @@ dependencies {
     // Dagger Hilt
     val hiltVersion = rootProject.extra["hilt_version"]
     implementation("com.google.dagger:hilt-android:$hiltVersion")
-    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    ksp("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     // Lifecycle
     val viewModelVersion = rootProject.extra["viewModel_version"]
@@ -114,11 +114,11 @@ dependencies {
 
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.room:room-runtime:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
 
     //Paging
     val pagingVersion = rootProject.extra["paging_version"]
-    implementation("androidx.paging:paging-runtime:$pagingVersion")
+    implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
 
     // Shimmer
     val shimmerVersion = rootProject.extra["shimmer_version"]
