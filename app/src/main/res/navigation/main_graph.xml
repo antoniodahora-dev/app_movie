@@ -55,6 +55,7 @@
         android:name="com.a3tecnology.appmovie.presenter.main.moviedetails.details.MovieDetailsFragment"
         android:label="fragment_movie_details"
         tools:layout="@layout/fragment_movie_details" >
+        <!--suppress NavigationFile -->
         <argument
             android:name="movieId"
             app:argType="integer" />

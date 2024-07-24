@@ -126,6 +126,7 @@ fun Context.circularProgressDrawable(): Drawable {
     }
 }
 
+//transicao entre as telas
 fun NavController.onNavigate(action: Int) {
     this.navigate(
         action,
@@ -139,6 +140,7 @@ fun NavController.onNavigate(action: Int) {
     )
 }
 
+//transicao entre as telas de forma global
 fun NavController.onNavigate(nav: NavDirections) {
     this.navigate(
         nav.actionId,
