@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.a3tecnology.appmovie.MainGraphDirections
 import com.a3tecnology.appmovie.databinding.FragmentHomeBinding
 import com.a3tecnology.appmovie.presenter.main.bottombar.home.adapter.GenreMovieAdapter
-import com.a3tecnology.appmovie.presenter.main.bottombar.model.GenrePresentation
+import com.a3tecnology.appmovie.presenter.model.MoviesByGenre
 import com.a3tecnology.appmovie.util.StateView
 import com.a3tecnology.appmovie.util.onNavigate
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,7 +42,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRecycler()
-        getGenres()
+        initObserver()
     }
 
     private fun initRecycler() {
@@ -70,48 +71,73 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun getGenres() {
+    //aula 360
+    private fun initObserver() {
+        homeViewModel.homeState.observe(viewLifecycleOwner) {stateView ->
+            when(stateView){
 
-        homeViewModel.getGenres().observe(viewLifecycleOwner) { stateView ->
-
-            when (stateView) {
-                is StateView.Loading -> {}
+                is StateView.Loading -> {
+                    binding.progressBar.isVisible = true
+                    binding.recyclerVHome.isVisible = false
+                }
                 is StateView.Success -> {
-                    val genre = stateView.data ?: emptyList()
-
-                    genreMovieAdapter.submitList(genre)
-                    getMovieGenre(genre)
+                    binding.progressBar.isVisible = false
+                    binding.recyclerVHome.isVisible = true
                 }
-                is StateView.Error -> {}
+                is StateView.Error -> {
+                    binding.progressBar.isVisible = false
+                    binding.recyclerVHome.isVisible = false
+                }
             }
+        }
+
+        homeViewModel.movieList.observe(viewLifecycleOwner) { moviesByGenre ->
+            genreMovieAdapter.submitList(moviesByGenre)
         }
     }
 
-    private fun getMovieGenre(genres: List<GenrePresentation>) {
+//    private fun getGenres() {
+//
+//        homeViewModel.getGenres().observe(viewLifecycleOwner) { stateView ->
+//
+//            when (stateView) {
+//                is StateView.Loading -> {}
+//                is StateView.Success -> {
+//                    val genre = stateView.data ?: emptyList()
+//
+//                    genreMovieAdapter.submitList(genre)
+//                    getMovieGenre(genre)
+//                }
+//                is StateView.Error -> {}
+//            }
+//        }
+//    }
 
-        val genreMutableList = genres.toMutableList()
-
-        genreMutableList.forEachIndexed { index, genre ->
-            homeViewModel.getMovieByGenre(genre.id).observe(viewLifecycleOwner) { stateView ->
-
-                when (stateView) {
-                    is StateView.Loading -> { }
-                    is StateView.Success -> {
+//    private fun getMovieGenre(genres: List<MoviesByGenre>) {
+//
+//        val genreMutableList = genres.toMutableList()
+//
+//        genreMutableList.forEachIndexed { index, genre ->
+//            homeViewModel.getMovieByGenre(genre.id).observe(viewLifecycleOwner) { stateView ->
+//
+//                when (stateView) {
+//                    is StateView.Loading -> { }
+//                    is StateView.Success -> {
 //                        genreMutableList[index] = genre.copy(movies = stateView.data?.take(6))
-
-                        //add delay of 1 seg
-                        lifecycleScope.launch {
-                            delay(1000)
-                            genreMovieAdapter.submitList(genreMutableList)
-                        }
-
-                    }
-                    is StateView.Error -> {}
-                }
-            }
-        }
-
-    }
+//
+//                        //add delay of 1 seg
+//                        lifecycleScope.launch {
+//                            delay(1000)
+//                            genreMovieAdapter.submitList(genreMutableList)
+//                        }
+//
+//                    }
+//                    is StateView.Error -> {}
+//                }
+//            }
+//        }
+//
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

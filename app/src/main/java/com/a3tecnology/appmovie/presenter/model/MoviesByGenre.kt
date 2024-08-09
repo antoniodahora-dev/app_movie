@@ -1,11 +1,11 @@
-package com.a3tecnology.appmovie.presenter.main.bottombar.model
+package com.a3tecnology.appmovie.presenter.model
 
 import android.os.Parcelable
 import com.a3tecnology.appmovie.domain.model.Movie
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class GenrePresentation(
+data class MoviesByGenre(
     val id: Int?,
     val name: String?,
     val movies: List<Movie>?,

@@ -54,8 +54,6 @@ class SearchFragment : Fragment() {
         initSearchView()
     }
 
-
-
     private fun searchMovie(query: String?) {
 
         lifecycleScope.launch {

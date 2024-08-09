@@ -1,18 +1,13 @@
 package com.a3tecnology.appmovie.presenter.main.moviegenre
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.a3tecnology.appmovie.BuildConfig
 import com.a3tecnology.appmovie.domain.model.Movie
-import com.a3tecnology.appmovie.domain.usecase.movie.GetMovieByGenreUseCase
+import com.a3tecnology.appmovie.domain.usecase.movie.GetMovieByGenrePaginationUseCase
 import com.a3tecnology.appmovie.domain.usecase.movie.SearchMovieUseCase
-import com.a3tecnology.appmovie.util.Constants
-import com.a3tecnology.appmovie.util.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieGenreViewModel @Inject constructor(
-    private val getMovieByGenreUseCase: GetMovieByGenreUseCase,
+    private val getMovieByGenrePaginationUseCase: GetMovieByGenrePaginationUseCase,
     private val searchMovieUseCase: SearchMovieUseCase
 ) : ViewModel() {
 
@@ -31,12 +26,12 @@ class MovieGenreViewModel @Inject constructor(
 
     private var currentGenreId: Int? = null
 
-    fun getMovieByGenre(genreId: Int?, forceRequest: Boolean) = viewModelScope.launch {
+    fun getMovieByGenrePagination(genreId: Int?, forceRequest: Boolean) = viewModelScope.launch {
         if (genreId != currentGenreId || forceRequest) {
 
             currentGenreId = genreId
 
-            getMovieByGenreUseCase(
+            getMovieByGenrePaginationUseCase(
                 genreId = genreId
             ).cachedIn(viewModelScope).collectLatest {
                 _movieList.emit(it)

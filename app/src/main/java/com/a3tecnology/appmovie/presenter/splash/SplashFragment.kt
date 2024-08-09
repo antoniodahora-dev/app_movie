@@ -12,7 +12,6 @@ import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.FragmentSplashBinding
 import com.a3tecnology.appmovie.util.onNavigate
 
-
 class SplashFragment : Fragment() {
 
     private var _binding: FragmentSplashBinding? = null
@@ -33,7 +32,8 @@ class SplashFragment : Fragment() {
     }
 
     private fun initSplashScreen() {
-        Handler(Looper.getMainLooper()).postDelayed({ run {
+        Handler(Looper.getMainLooper()).postDelayed({
+        run {
             findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
         }}, 3000)
     }

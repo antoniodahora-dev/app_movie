@@ -19,11 +19,35 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchMovieUseCase: SearchMovieUseCase
-) : ViewModel() {
+): ViewModel() {
     fun searchMovie(query: String?) : Flow<PagingData<Movie>> {
         return searchMovieUseCase(
             query = query
         ).cachedIn(viewModelScope)
     }
+
+//    fun searchMovie(query: String?) = liveData(Dispatchers.IO) {
+//
+//        try {
+//            emit(StateView.Loading())
+//
+//            val search = searchMovieUseCase.invoke(
+//                apiKey = BuildConfig.API_KEY,
+//                language = Constants.Movie.LANGUAGE,
+//                query = query
+//            )
+//
+//            emit(StateView.Success(search))
+//
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            emit(StateView.Error(message = e.message))
+//
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            emit(StateView.Error(message = e.message))
+//        }
+//    }
+
 
 }

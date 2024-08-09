@@ -21,7 +21,6 @@ import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.FragmentMovieGenreBinding
 import com.a3tecnology.appmovie.presenter.main.moviegenre.adapter.LoadStatePagingAdapter
 import com.a3tecnology.appmovie.presenter.main.moviegenre.adapter.MoviePagingAdapter
-import com.a3tecnology.appmovie.util.StateView
 import com.a3tecnology.appmovie.util.hideKeyboard
 import com.a3tecnology.appmovie.util.initToolbar
 import com.a3tecnology.appmovie.util.onNavigate
@@ -64,7 +63,7 @@ class MovieGenreFragment : Fragment() {
         binding.txtTitle.text = args.name
 
         initRecycler()
-        getByMovieGenre()
+        getMovieByGenrePagination()
         initSearchView()
     }
 
@@ -134,11 +133,11 @@ class MovieGenreFragment : Fragment() {
                     }
                 }
             }
-
         }
     }
 
     private fun initSearchView() {
+
         binding.searchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
 
@@ -160,10 +159,9 @@ class MovieGenreFragment : Fragment() {
                 return false
             }
         })
-
         binding.searchView.setOnSearchViewListener(object : SimpleSearchView.SearchViewListener {
             override fun onSearchViewClosed() {
-                getByMovieGenre()
+                getMovieByGenrePagination()
             }
 
             override fun onSearchViewClosedAnimation() {
@@ -188,10 +186,10 @@ class MovieGenreFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun getByMovieGenre(forceRequest: Boolean = false) {
+    private fun getMovieByGenrePagination(forceRequest: Boolean = false) {
 
         lifecycleScope.launch {
-            movieGenreViewModel.getMovieByGenre(genreId = args.genreId, forceRequest = forceRequest)
+            movieGenreViewModel.getMovieByGenrePagination(genreId = args.genreId, forceRequest = forceRequest)
             movieGenreViewModel.movieList.collectLatest { pagingData ->
                 moviePagingAdapter.submitData(pagingData)
             }

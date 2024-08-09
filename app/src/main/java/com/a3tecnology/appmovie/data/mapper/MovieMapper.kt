@@ -15,7 +15,7 @@ import com.a3tecnology.appmovie.domain.model.Genre
 import com.a3tecnology.appmovie.domain.model.Movie
 import com.a3tecnology.appmovie.domain.model.MovieReview
 import com.a3tecnology.appmovie.domain.model.Person
-import com.a3tecnology.appmovie.presenter.main.bottombar.model.GenrePresentation
+import com.a3tecnology.appmovie.presenter.model.MoviesByGenre
 
 fun GenreResponse.toDomain(): Genre {
     return Genre(
@@ -46,15 +46,15 @@ fun MovieResponse.toDomain(): Movie {
     )
 }
 
-fun Genre.toPresentation() : GenrePresentation {
-
-    return GenrePresentation(
-        id = id,
-        name = name,
-        movies = emptyList()
-
-    )
-}
+//fun Genre.toPresentation() : MoviesByGenre {
+//
+//    return MoviesByGenre(
+//        id = id,
+//        name = name,
+//        movies = emptyList()
+//
+//    )
+//}
 
 fun CountryResponse.toDomain() : Country {
     return Country(
