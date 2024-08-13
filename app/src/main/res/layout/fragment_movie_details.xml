@@ -230,7 +230,7 @@
                     android:textColor="@color/color_default"
                     android:background="@drawable/bg_border_red_full_line"
                     app:backgroundTint="@null"
-                    app:icon="@drawable/ic_download"
+                    app:icon="@drawable/ic_download_fill"
                     app:iconTint="@color/color_default"
                     app:iconGravity="textStart"/>
 

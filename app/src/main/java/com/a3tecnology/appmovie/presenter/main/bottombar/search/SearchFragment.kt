@@ -91,6 +91,7 @@ class SearchFragment : Fragment() {
                         binding.shimmer.stopShimmer()
                         binding.recyclerMovies.isVisible = true
                         binding.shimmer.isVisible = false
+                        emptyState(moviePagingAdapter.itemCount == 0)
 //                        binding.progressBar.isVisible = false
                     }
                     is LoadState.Error ->  {
@@ -157,7 +158,7 @@ class SearchFragment : Fragment() {
 
     private fun emptyState(empty: Boolean) {
         binding.recyclerMovies.isVisible = !empty
-        binding.linearLayoutNotFound.isVisible = empty
+        binding.linearLayoutEmpty.isVisible = empty
 
     }
 
