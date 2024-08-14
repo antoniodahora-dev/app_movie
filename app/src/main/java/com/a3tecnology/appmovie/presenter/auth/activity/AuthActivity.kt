@@ -9,8 +9,11 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.ActivityAuthBinding
+import com.a3tecnology.appmovie.presenter.auth.enums.AuthenticationDestination
+import com.a3tecnology.appmovie.presenter.auth.enums.AuthenticationDestination.*
 import com.a3tecnology.appmovie.presenter.main.activity.MainActivity
 import com.a3tecnology.appmovie.util.FirebaseHelp
+import com.a3tecnology.appmovie.util.getSerializableCompat
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,6 +47,12 @@ class AuthActivity : AppCompatActivity() {
 
         navController = navHostFragment.navController
 
+        //Aula 365.10
+        val graph = navController.navInflater.inflate(R.navigation.auth_graph)
+        graph.setStartDestination(getDestination())
+        navController.graph = graph
+
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.onboardingFragment) {
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -56,5 +65,23 @@ class AuthActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
            finish()
         }
+    }
+
+    //Aula 365.10
+    private fun getDestination(): Int {
+        val destination =
+            intent.getSerializableCompat<AuthenticationDestination>(AUTHENTICATION_PARAMETER)
+
+        return when(destination){
+            LOGIN_SCREEN -> {
+                R.id.authentication
+            }
+            else -> {
+                R.id.splashFragment
+            }
+        }
+    }
+    companion object {
+        const val AUTHENTICATION_PARAMETER = "AUTHENTICATION_PARAMETER"
     }
 }
