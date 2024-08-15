@@ -1,8 +1,6 @@
-package com.a3tecnology.appmovie.data.model
+package com.a3tecnology.appmovie.data.model.movie
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
 
 data class MovieResponse(

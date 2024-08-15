@@ -9,21 +9,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.a3tecnology.appmovie.R
-import com.a3tecnology.appmovie.databinding.BottomSheetDeleteMovieBinding
 import com.a3tecnology.appmovie.databinding.BottomSheetLogoutMovieBinding
-import com.a3tecnology.appmovie.databinding.FragmentHomeBinding
 import com.a3tecnology.appmovie.databinding.FragmentProfileBinding
-import com.a3tecnology.appmovie.domain.model.MenuProfile
-import com.a3tecnology.appmovie.domain.model.MenuProfileType
-import com.a3tecnology.appmovie.domain.model.MenuProfileType.*
-import com.a3tecnology.appmovie.domain.model.Movie
+import com.a3tecnology.appmovie.domain.model.menu.MenuProfile
+import com.a3tecnology.appmovie.domain.model.menu.MenuProfileType.*
 import com.a3tecnology.appmovie.presenter.auth.activity.AuthActivity
 import com.a3tecnology.appmovie.presenter.auth.activity.AuthActivity.Companion.AUTHENTICATION_PARAMETER
-import com.a3tecnology.appmovie.presenter.auth.enums.AuthenticationDestination
+import com.a3tecnology.appmovie.presenter.auth.enums.AuthenticationDestinations
 import com.a3tecnology.appmovie.presenter.main.bottombar.profile.adapter.ProfileMenuAdapter
-import com.a3tecnology.appmovie.util.calculateFileSize
-import com.a3tecnology.appmovie.util.calculateMovieTime
-import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
@@ -128,7 +121,7 @@ class ProfileFragment : Fragment() {
         FirebaseAuth.getInstance().signOut()
         activity?.finish()
         val intent = Intent(requireContext(), AuthActivity::class.java)
-        intent.putExtra(AUTHENTICATION_PARAMETER, AuthenticationDestination.LOGIN_SCREEN)
+        intent.putExtra(AUTHENTICATION_PARAMETER, AuthenticationDestinations.LOGIN_SCREEN)
         startActivity(intent)
     }
 

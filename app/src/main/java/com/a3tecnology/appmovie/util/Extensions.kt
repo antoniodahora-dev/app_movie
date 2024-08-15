@@ -15,11 +15,14 @@ import androidx.navigation.NavOptions
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.a3tecnology.appmovie.R
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CancellableContinuation
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
 
 fun Fragment.initToolbar(
     toolbar: Toolbar,

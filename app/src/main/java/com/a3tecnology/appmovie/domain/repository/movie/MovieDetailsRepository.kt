@@ -1,9 +1,8 @@
 package com.a3tecnology.appmovie.domain.repository.movie
 
-import com.a3tecnology.appmovie.data.model.CreditResponse
-import com.a3tecnology.appmovie.data.model.GenresResponse
-import com.a3tecnology.appmovie.data.model.MovieResponse
-import com.a3tecnology.appmovie.data.model.MovieReviewResponse
+import com.a3tecnology.appmovie.data.model.movie.CreditResponse
+import com.a3tecnology.appmovie.data.model.movie.MovieResponse
+import com.a3tecnology.appmovie.data.model.movie.MovieReviewResponse
 
 interface MovieDetailsRepository {
 

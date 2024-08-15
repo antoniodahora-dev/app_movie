@@ -1,7 +1,6 @@
-package com.a3tecnology.appmovie.domain.model
+package com.a3tecnology.appmovie.domain.model.movie
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

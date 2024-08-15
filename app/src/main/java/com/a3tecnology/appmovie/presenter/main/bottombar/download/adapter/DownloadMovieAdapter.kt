@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.a3tecnology.appmovie.databinding.MovieDownloadItemBinding
-import com.a3tecnology.appmovie.domain.model.Movie
+import com.a3tecnology.appmovie.domain.model.movie.Movie
 import com.a3tecnology.appmovie.util.calculateFileSize
 import com.a3tecnology.appmovie.util.calculateMovieTime
 import com.bumptech.glide.Glide

@@ -1,6 +1,6 @@
 package com.a3tecnology.appmovie.domain.usecase.movie
 
-import com.a3tecnology.appmovie.data.model.MovieResponse
+import com.a3tecnology.appmovie.data.model.movie.MovieResponse
 import com.a3tecnology.appmovie.domain.repository.movie.MovieRepository
 import javax.inject.Inject
 

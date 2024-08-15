@@ -1,4 +1,4 @@
-package com.a3tecnology.appmovie.domain.model
+package com.a3tecnology.appmovie.domain.model.menu
 
 import com.a3tecnology.appmovie.R
 

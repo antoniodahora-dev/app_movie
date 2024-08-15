@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.a3tecnology.appmovie.BuildConfig
 import com.a3tecnology.appmovie.domain.local.usecase.InsertMoviesUseCase
-import com.a3tecnology.appmovie.domain.model.Movie
+import com.a3tecnology.appmovie.domain.model.movie.Movie
 import com.a3tecnology.appmovie.domain.usecase.movie.GetCreditUseCase
 import com.a3tecnology.appmovie.domain.usecase.movie.GetMovieDetailsUseCase
-import com.a3tecnology.appmovie.util.Constants
 import com.a3tecnology.appmovie.util.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

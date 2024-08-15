@@ -1,4 +1,4 @@
-package com.a3tecnology.appmovie.domain.model
+package com.a3tecnology.appmovie.domain.model.movie
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

@@ -6,10 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a3tecnology.appmovie.domain.local.usecase.DeleteMovieUseCase
 import com.a3tecnology.appmovie.domain.local.usecase.GetMoviesUseCase
-import com.a3tecnology.appmovie.domain.model.Movie
+import com.a3tecnology.appmovie.domain.model.movie.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import okhttp3.internal.filterList
 import javax.inject.Inject
 
 

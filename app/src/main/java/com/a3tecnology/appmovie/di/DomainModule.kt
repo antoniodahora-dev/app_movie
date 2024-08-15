@@ -4,10 +4,12 @@ import com.a3tecnology.appmovie.data.local.repository.MovieLocalRepositoryImpl
 import com.a3tecnology.appmovie.data.repository.auth.FirebaseAuthenticatorImpl
 import com.a3tecnology.appmovie.data.repository.movie.MovieDetailsRepositoryImpl
 import com.a3tecnology.appmovie.data.repository.movie.MovieRepositoryImpl
+import com.a3tecnology.appmovie.data.repository.user.UserRepositoryImpl
 import com.a3tecnology.appmovie.domain.local.repository.MovieLocalRepository
 import com.a3tecnology.appmovie.domain.repository.auth.FirebaseAuthenticator
 import com.a3tecnology.appmovie.domain.repository.movie.MovieDetailsRepository
 import com.a3tecnology.appmovie.domain.repository.movie.MovieRepository
+import com.a3tecnology.appmovie.domain.repository.user.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -36,5 +38,11 @@ abstract class DomainModule {
     abstract fun bindsMovieLocalRepositoryImpl(
         movieLocalRepositoryImpl: MovieLocalRepositoryImpl
     ) : MovieLocalRepository
+
+    @Binds
+    abstract fun bindsUserRepositoryImpl(
+        userRepositoryImpl: UserRepositoryImpl
+    ) : UserRepository
+
 
 }

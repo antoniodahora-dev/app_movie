@@ -3,17 +3,14 @@ package com.a3tecnology.appmovie.presenter.main.bottombar.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.a3tecnology.appmovie.data.mapper.toDomain
-import com.a3tecnology.appmovie.domain.model.Genre
+import com.a3tecnology.appmovie.domain.model.movie.Genre
 import com.a3tecnology.appmovie.domain.usecase.movie.GetGenresUseCase
-import com.a3tecnology.appmovie.domain.usecase.movie.GetMovieByGenrePaginationUseCase
 import com.a3tecnology.appmovie.domain.usecase.movie.GetMovieByGenreUseCase
 import com.a3tecnology.appmovie.presenter.model.MoviesByGenre
 import com.a3tecnology.appmovie.util.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

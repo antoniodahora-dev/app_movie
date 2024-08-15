@@ -1,7 +1,7 @@
 package com.a3tecnology.appmovie.presenter.model
 
 import android.os.Parcelable
-import com.a3tecnology.appmovie.domain.model.Movie
+import com.a3tecnology.appmovie.domain.model.movie.Movie
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

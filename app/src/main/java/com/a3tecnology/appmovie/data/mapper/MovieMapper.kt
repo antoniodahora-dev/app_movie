@@ -1,21 +1,20 @@
 package com.a3tecnology.appmovie.data.mapper
 
 import com.a3tecnology.appmovie.data.local.entity.MovieEntity
-import com.a3tecnology.appmovie.data.model.AuthorDetailsResponse
-import com.a3tecnology.appmovie.data.model.CountryResponse
-import com.a3tecnology.appmovie.data.model.CreditResponse
-import com.a3tecnology.appmovie.data.model.GenreResponse
-import com.a3tecnology.appmovie.data.model.MovieResponse
-import com.a3tecnology.appmovie.data.model.MovieReviewResponse
-import com.a3tecnology.appmovie.data.model.PersonResponse
-import com.a3tecnology.appmovie.domain.model.AuthorDetails
-import com.a3tecnology.appmovie.domain.model.Country
-import com.a3tecnology.appmovie.domain.model.Credit
-import com.a3tecnology.appmovie.domain.model.Genre
-import com.a3tecnology.appmovie.domain.model.Movie
-import com.a3tecnology.appmovie.domain.model.MovieReview
-import com.a3tecnology.appmovie.domain.model.Person
-import com.a3tecnology.appmovie.presenter.model.MoviesByGenre
+import com.a3tecnology.appmovie.data.model.movie.AuthorDetailsResponse
+import com.a3tecnology.appmovie.data.model.movie.CountryResponse
+import com.a3tecnology.appmovie.data.model.movie.CreditResponse
+import com.a3tecnology.appmovie.data.model.movie.GenreResponse
+import com.a3tecnology.appmovie.data.model.movie.MovieResponse
+import com.a3tecnology.appmovie.data.model.movie.MovieReviewResponse
+import com.a3tecnology.appmovie.data.model.movie.PersonResponse
+import com.a3tecnology.appmovie.domain.model.movie.AuthorDetails
+import com.a3tecnology.appmovie.domain.model.movie.Country
+import com.a3tecnology.appmovie.domain.model.movie.Credit
+import com.a3tecnology.appmovie.domain.model.movie.Genre
+import com.a3tecnology.appmovie.domain.model.movie.Movie
+import com.a3tecnology.appmovie.domain.model.movie.MovieReview
+import com.a3tecnology.appmovie.domain.model.movie.Person
 
 fun GenreResponse.toDomain(): Genre {
     return Genre(

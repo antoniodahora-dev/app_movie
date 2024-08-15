@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.ItemCommentReviewBinding
-import com.a3tecnology.appmovie.domain.model.MovieReview
+import com.a3tecnology.appmovie.domain.model.movie.MovieReview
 import com.a3tecnology.appmovie.util.formatCommentDate
 import com.bumptech.glide.Glide
 
@@ -18,13 +18,15 @@ class CommentsAdapter : ListAdapter<MovieReview, CommentsAdapter.MyViewHolder>(D
         val DIFF_UTIL = object: DiffUtil.ItemCallback<MovieReview>() {
             override fun areItemsTheSame(
                 oldItem: MovieReview,
-                newItem: MovieReview): Boolean {
+                newItem: MovieReview
+            ): Boolean {
                 return oldItem.id ==  newItem.id
             }
 
             override fun areContentsTheSame(
                 oldItem: MovieReview,
-                newItem: MovieReview): Boolean {
+                newItem: MovieReview
+            ): Boolean {
                 return oldItem ==  newItem
             }
 

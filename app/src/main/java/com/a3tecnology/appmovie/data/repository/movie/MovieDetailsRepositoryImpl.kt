@@ -1,9 +1,9 @@
 package com.a3tecnology.appmovie.data.repository.movie
 
 import com.a3tecnology.appmovie.data.api.ServiceApi
-import com.a3tecnology.appmovie.data.model.CreditResponse
-import com.a3tecnology.appmovie.data.model.MovieResponse
-import com.a3tecnology.appmovie.data.model.MovieReviewResponse
+import com.a3tecnology.appmovie.data.model.movie.CreditResponse
+import com.a3tecnology.appmovie.data.model.movie.MovieResponse
+import com.a3tecnology.appmovie.data.model.movie.MovieReviewResponse
 import com.a3tecnology.appmovie.domain.repository.movie.MovieDetailsRepository
 import javax.inject.Inject
 

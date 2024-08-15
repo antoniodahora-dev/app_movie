@@ -7,12 +7,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.ItemUserProfileBinding
-import com.a3tecnology.appmovie.domain.model.MenuProfile
-import com.a3tecnology.appmovie.domain.model.MenuProfileType
+import com.a3tecnology.appmovie.domain.model.menu.MenuProfile
+import com.a3tecnology.appmovie.domain.model.menu.MenuProfileType
 
 // aula 363
 class ProfileMenuAdapter(
-   private val items: List<MenuProfile>,
+    private val items: List<MenuProfile>,
     private val context: Context,
     private val onClick: (MenuProfileType) -> Unit
 

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.DialogDownloadingBinding
 import com.a3tecnology.appmovie.databinding.FragmentMovieDetailsBinding
-import com.a3tecnology.appmovie.domain.model.Movie
+import com.a3tecnology.appmovie.domain.model.movie.Movie
 import com.a3tecnology.appmovie.presenter.main.moviedetails.adapter.CastAdapter
 import com.a3tecnology.appmovie.presenter.main.moviedetails.adapter.ViewPagerAdapter
 import com.a3tecnology.appmovie.presenter.main.moviedetails.comments.CommentsFragment
