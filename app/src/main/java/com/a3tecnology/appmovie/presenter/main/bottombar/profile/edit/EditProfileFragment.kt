@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,6 +30,10 @@ import com.a3tecnology.appmovie.util.showSnackBar
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 //aula 364
 
@@ -41,6 +47,11 @@ class EditProfileFragment : Fragment() {
 
     //aula 370
     private val GALLERY_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE
+
+    //aula 371
+    private val CAMERA_PERMISSION = Manifest.permission.CAMERA
+    private var currentPhotoPath: String? = null
+    private lateinit var photoUri: Uri
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +71,7 @@ class EditProfileFragment : Fragment() {
 
     //Aula 366-111
     private fun validateData() {
+
         val name = binding.editNameProfile.text.toString()
         val surName = binding.editSurNameProfile.text.toString()
         val phone = binding.editPhoneProfile.text.toString()
@@ -70,7 +82,7 @@ class EditProfileFragment : Fragment() {
             showSnackBar(message = R.string.txt_name_empty_edit_profile_fragment)
         }
 
-       else if (surName.isEmpty()) {
+        else if (surName.isEmpty()) {
             showSnackBar(message = R.string.txt_surnane_empty_edit_profile_fragment)
         }
 
@@ -95,7 +107,6 @@ class EditProfileFragment : Fragment() {
             genre = genre,
             country = country
         )
-
         update(user)
     }
 
@@ -179,6 +190,7 @@ class EditProfileFragment : Fragment() {
 
     //aula 367.112
     private fun configData(user: User) {
+
        binding.editNameProfile.setText(user.firstName)
        binding.editSurNameProfile.setText(user.surName)
        binding.editEmailProfile.setText(FirebaseHelp.getAuth().currentUser?.email)
@@ -188,18 +200,17 @@ class EditProfileFragment : Fragment() {
 
     }
 
-
     // aula 369
     private fun openBottomSelectImage() {
+
             val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
             val bottomSheetBinding = BottomSheetSelectImageBinding.inflate(
                 layoutInflater, null, false)
 
             bottomSheetBinding.btnCamera.setOnClickListener {
                 bottomSheetDialog.dismiss()
-                //openCamera
+                checkCameraPermission()
             }
-
 
             bottomSheetBinding.btnGallery.setOnClickListener {
                 bottomSheetDialog.dismiss()
@@ -209,7 +220,6 @@ class EditProfileFragment : Fragment() {
             bottomSheetDialog.setContentView(bottomSheetBinding.root)
             bottomSheetDialog.show()
     }
-
 
     //AULA 370
     private fun checkGalleryPermission() {
@@ -227,7 +237,8 @@ class EditProfileFragment : Fragment() {
         }
     }
 
-    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
+        uri ->
         if (uri != null) {
             binding.imgProfile.setImageURI(uri)
         }
@@ -239,7 +250,6 @@ class EditProfileFragment : Fragment() {
             requireContext(),
             permission
         ) == PackageManager.PERMISSION_GRANTED
-
 
     private fun showBottomSheetPermissionDenied() {
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
@@ -267,7 +277,6 @@ class EditProfileFragment : Fragment() {
         bottomSheetDialog.show()
     }
 
-
     private val galleryPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
@@ -282,6 +291,58 @@ class EditProfileFragment : Fragment() {
         uri?.let {
             binding.imgProfile.setImageURI(it)
         }
+    }
+
+    //aula 371
+
+    private fun checkCameraPermission() {
+        if (checkPermissionGranted(CAMERA_PERMISSION)) {
+            openCamera()
+        } else {
+            cameraPermissionLauncher.launch(CAMERA_PERMISSION)
+        }
+    }
+
+    private val cameraPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                openCamera()
+            } else {
+                showBottomSheetPermissionDenied()
+            }
+        }
+
+    private fun openCamera() {
+        val photoFile = createImageFile()
+        photoFile?.let {
+            photoUri = FileProvider.getUriForFile(
+                requireContext(),
+                "${requireContext().packageName}.provider",
+                it
+            )
+            takePictureLauncher.launch(photoUri)
+        }
+    }
+
+    private val takePictureLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { success: Boolean ->
+        if (success) {
+            binding.imgProfile.setImageURI(photoUri)
+        }
+    }
+
+    private fun createImageFile(): File? {
+        val timeStamp: String =
+            SimpleDateFormat("yyyy-MM-dd_HH:mm:ss", Locale.getDefault()).format(Date())
+        val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val imageFile = File.createTempFile(
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
+        )
+        currentPhotoPath = imageFile.absolutePath
+        return imageFile
     }
 
 
