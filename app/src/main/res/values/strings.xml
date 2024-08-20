@@ -138,4 +138,10 @@
     <string name="txt_cancel_button_bottom_sheet_logout">Cancelar</string>
     <string name="txt_confirm_button_bottom_sheet_logout">Sim, sair!</string>
 
+    <!--    BottomSheetPermission-->
+    <string name="txt_title_bottom_permission">Permissão Negada</string>
+    <string name="txt_message_bottom_permission">Para acessar este  recurso, você precisa aceitar a permissão. </string>
+    <string name="txt_cancel_button_bottom_permission">Cancelar</string>
+    <string name="txt_confirm_button_bottom_permission">Aceitar</string>
+
 </resources>

@@ -1,18 +1,26 @@
 package com.a3tecnology.appmovie.presenter.main.bottombar.profile.edit
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.a3tecnology.appmovie.R
+import com.a3tecnology.appmovie.databinding.BottomSheetPermissionDeniedBinding
 import com.a3tecnology.appmovie.databinding.BottomSheetSelectImageBinding
 import com.a3tecnology.appmovie.databinding.FragmentEditProfileBinding
 import com.a3tecnology.appmovie.domain.model.user.User
-import com.a3tecnology.appmovie.presenter.main.activity.MainActivity
 import com.a3tecnology.appmovie.util.FirebaseHelp
 import com.a3tecnology.appmovie.util.StateView
 import com.a3tecnology.appmovie.util.initToolbar
@@ -30,6 +38,9 @@ class EditProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val editProfileViewModel: EditProfileViewModel by viewModels()
+
+    //aula 370
+    private val GALLERY_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -192,12 +203,88 @@ class EditProfileFragment : Fragment() {
 
             bottomSheetBinding.btnGallery.setOnClickListener {
                 bottomSheetDialog.dismiss()
-                //openGalery
+                checkGalleryPermission()
             }
 
             bottomSheetDialog.setContentView(bottomSheetBinding.root)
             bottomSheetDialog.show()
     }
+
+
+    //AULA 370
+    private fun checkGalleryPermission() {
+
+        // version android 12 -
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            if (checkPermissionGranted(GALLERY_PERMISSION)) {
+                pickImageLauncher.launch("image/*")
+            } else {
+                galleryPermissionLauncher.launch(GALLERY_PERMISSION)
+            }
+        } else {
+            // version android 13 +
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+    }
+
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            binding.imgProfile.setImageURI(uri)
+        }
+    }
+
+    //AULA 370
+    private fun checkPermissionGranted(permission: String) =
+        ContextCompat.checkSelfPermission(
+            requireContext(),
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+
+
+    private fun showBottomSheetPermissionDenied() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
+        val bottomSheetBinding = BottomSheetPermissionDeniedBinding.inflate(
+            layoutInflater, null, false)
+
+        bottomSheetBinding.btnCancel.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+
+
+        bottomSheetBinding.btnAccept.setOnClickListener {
+            bottomSheetDialog.dismiss()
+
+            val intent = Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.fromParts("package", requireActivity().packageName, null)
+
+            )
+            startActivity(intent)
+
+        }
+
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        bottomSheetDialog.show()
+    }
+
+
+    private val galleryPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                pickImageLauncher.launch("image/*")
+            } else {
+                showBottomSheetPermissionDenied()
+            }
+        }
+
+    private val pickImageLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            binding.imgProfile.setImageURI(it)
+        }
+    }
+
+
 
     override fun onDestroy() {
         super.onDestroy()
