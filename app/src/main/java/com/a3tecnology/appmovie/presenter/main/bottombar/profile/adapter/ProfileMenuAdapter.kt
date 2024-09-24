@@ -15,7 +15,6 @@ class ProfileMenuAdapter(
     private val items: List<MenuProfile>,
     private val context: Context,
     private val onClick: (MenuProfileType) -> Unit
-
 ) : RecyclerView.Adapter<ProfileMenuAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

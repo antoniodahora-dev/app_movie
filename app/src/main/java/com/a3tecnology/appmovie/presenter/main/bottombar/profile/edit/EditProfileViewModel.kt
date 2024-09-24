@@ -1,7 +1,9 @@
 package com.a3tecnology.appmovie.presenter.main.bottombar.profile.edit
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.domain.model.user.User
 import com.a3tecnology.appmovie.domain.usecase.user.GetUserUseCase
 import com.a3tecnology.appmovie.domain.usecase.user.UserUpdateUseCase
@@ -17,6 +19,9 @@ class EditProfileViewModel @Inject constructor(
     private val userUpdateUseCase: UserUpdateUseCase,
     private val getUserUseCase: GetUserUseCase
 ): ViewModel() {
+
+    private val _validateData = MutableLiveData<Pair<Boolean, Int?>>()
+    val validateData: MutableLiveData<Pair<Boolean, Int?>> = _validateData
 
     fun update(user: User) = liveData(context = Dispatchers.IO) {
 
@@ -49,4 +54,47 @@ class EditProfileViewModel @Inject constructor(
             emit(StateView.Error(message = exception.message))
         }
     }
+
+    // Aula 373
+    fun validateData(
+        name: String,
+        surName: String,
+        phone: String,
+        genre: String,
+        country: String
+    ) {
+        if (name.isEmpty()) {
+//            showSnackBar(message = R.string.txt_name_empty_edit_profile_fragment)
+            validateData.value = Pair(false, R.string.txt_name_empty_edit_profile_fragment)
+            return
+        }
+
+        if (surName.isEmpty()) {
+//            showSnackBar(message = R.string.txt_surnane_empty_edit_profile_fragment)
+            validateData.value = Pair(false, R.string.txt_surnane_empty_edit_profile_fragment)
+            return
+        }
+
+        if (phone.isEmpty()) {
+//            showSnackBar(message = R.string.txt_phone_invalid_edit_profile_fragment)
+            validateData.value = Pair(false, R.string.txt_phone_invalid_edit_profile_fragment)
+            return
+        }
+
+       if (genre.isEmpty()) {
+//            showSnackBar(message = R.string.txt_genre_empty_edit_profile_fragment)
+         validateData.value = Pair(false, R.string.txt_genre_empty_edit_profile_fragment)
+            return
+        }
+
+        if (country.isEmpty()) {
+//            showSnackBar(message = R.string.txt_country_empty_edit_profile_fragment)
+            validateData.value = Pair(false, R.string.txt_country_empty_edit_profile_fragment)
+            return
+        }
+
+        validateData.value = Pair(true, null)
+
+    }
 }
+

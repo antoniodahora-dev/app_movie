@@ -43,7 +43,7 @@ class MovieDetailsFragment : Fragment() {
 
     private lateinit var castAdapter: CastAdapter
 
-    private lateinit var dialogDownloading: AlertDialog
+        private lateinit var dialogDownloading: AlertDialog
 
     private lateinit var movie: Movie
 
@@ -249,7 +249,7 @@ class MovieDetailsFragment : Fragment() {
 
         handle.post(runnable)
 
-        val builder = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+        val builder = AlertDialog.Builder(requireContext())
         builder.setView(dialogBinding.root)
 
         dialogBinding.btnDownloadHide.setOnClickListener { dialogDownloading.dismiss() }

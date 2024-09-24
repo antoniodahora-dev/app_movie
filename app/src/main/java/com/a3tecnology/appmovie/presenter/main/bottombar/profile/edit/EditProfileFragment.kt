@@ -65,54 +65,24 @@ class EditProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initToolbar(toolbar = binding.toolbar)
+        initObservers()
         initListener()
         getUser()
     }
 
-    //Aula 366-111
-    private fun validateData() {
 
-        val name = binding.editNameProfile.text.toString()
-        val surName = binding.editSurNameProfile.text.toString()
-        val phone = binding.editPhoneProfile.text.toString()
-        val genre = binding.editGenreProfile.text.toString()
-        val country = binding.editCountryProfile.text.toString()
-
-        if (name.isEmpty()) {
-            showSnackBar(message = R.string.txt_name_empty_edit_profile_fragment)
-        }
-
-        else if (surName.isEmpty()) {
-            showSnackBar(message = R.string.txt_surnane_empty_edit_profile_fragment)
-        }
-
-        else if (phone.isEmpty()) {
-            showSnackBar(message = R.string.txt_phone_invalid_edit_profile_fragment)
-        }
-
-        else if (genre.isEmpty()) {
-            showSnackBar(message = R.string.txt_genre_empty_edit_profile_fragment)
-        }
-
-        else if (country.isEmpty()) {
-            showSnackBar(message = R.string.txt_country_empty_edit_profile_fragment)
-        }
-
-        // aula 367.112
-        val user = User(
-            firstName = name,
-            surName = surName,
-            email = FirebaseHelp.getAuth().currentUser?.email,
-            phone = phone,
-            genre = genre,
-            country = country
-        )
-        update(user)
-    }
 
     private fun initListener() {
         binding.btnUpdate.setOnClickListener {
-            validateData()
+            //aula 373
+//            validateData()
+            editProfileViewModel.validateData(
+             name = binding.editNameProfile.text.toString(),
+             surName = binding.editSurNameProfile.text.toString(),
+             phone = binding.editPhoneProfile.text.toString(),
+             genre = binding.editGenreProfile.text.toString(),
+             country = binding.editCountryProfile.text.toString()
+            )
         }
 
         //aula 369
@@ -121,8 +91,30 @@ class EditProfileFragment : Fragment() {
         }
     }
 
-    //aula 367.112
-    private fun update(user: User) {
+    //aula 373
+    private fun initObservers() {
+        editProfileViewModel.validateData.observe(viewLifecycleOwner) { (validate, stringId) ->
+            if (!validate) {
+                stringId?.let {
+                    showSnackBar(message = it)
+                }
+            } else {
+                update()
+            }
+        }
+    }
+
+    //aula 373 - um novo update para atender a nova proposta
+    private fun update() {
+        val user = User (
+            firstName = binding.editNameProfile.text.toString(),
+            surName = binding.editSurNameProfile.text.toString(),
+            email = FirebaseHelp.getAuth().currentUser?.email,
+            phone = binding.editPhoneProfile.text.toString(),
+            genre = binding.editGenreProfile.text.toString(),
+            country = binding.editCountryProfile.text.toString()
+        )
+
         editProfileViewModel.update(user).observe(viewLifecycleOwner) {stateView ->
             when(stateView) {
                 is StateView.Loading -> {
@@ -145,6 +137,31 @@ class EditProfileFragment : Fragment() {
             }
         }
     }
+
+    //aula 367.112
+//    private fun update(user: User) {
+//        editProfileViewModel.update(user).observe(viewLifecycleOwner) {stateView ->
+//            when(stateView) {
+//                is StateView.Loading -> {
+//                    showLoading(true)
+//                }
+//
+//                is StateView.Success -> {
+//
+//                    showLoading(false)
+//                    showSnackBar(message = R.string.txt_update_message_edit_profile_success)
+////                    Toast.makeText(requireContext(), "Cadastro realizado com sucesso.", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                is StateView.Error -> {
+//                    showLoading(false)
+//                    showSnackBar(
+//                        message = FirebaseHelp.validatorError(error = stateView.message ?: "")
+//                    )
+//                }
+//            }
+//        }
+//    }
 
     //aula 367.112
     private fun showLoading(isLoading: Boolean) {
@@ -294,7 +311,6 @@ class EditProfileFragment : Fragment() {
     }
 
     //aula 371
-
     private fun checkCameraPermission() {
         if (checkPermissionGranted(CAMERA_PERMISSION)) {
             openCamera()
@@ -345,11 +361,50 @@ class EditProfileFragment : Fragment() {
         return imageFile
     }
 
-
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
+
+    //Aula 366-111
+//    private fun validateData() {
+//
+//        val name = binding.editNameProfile.text.toString()
+//        val surName = binding.editSurNameProfile.text.toString()
+//        val phone = binding.editPhoneProfile.text.toString()
+//        val genre = binding.editGenreProfile.text.toString()
+//        val country = binding.editCountryProfile.text.toString()
+//
+//        if (name.isEmpty()) {
+//            showSnackBar(message = R.string.txt_name_empty_edit_profile_fragment)
+//        }
+//
+//        else if (surName.isEmpty()) {
+//            showSnackBar(message = R.string.txt_surnane_empty_edit_profile_fragment)
+//        }
+//
+//        else if (phone.isEmpty()) {
+//            showSnackBar(message = R.string.txt_phone_invalid_edit_profile_fragment)
+//        }
+//
+//        else if (genre.isEmpty()) {
+//            showSnackBar(message = R.string.txt_genre_empty_edit_profile_fragment)
+//        }
+//
+//        else if (country.isEmpty()) {
+//            showSnackBar(message = R.string.txt_country_empty_edit_profile_fragment)
+//        }
+//
+//        // aula 367.112
+//        val user = User(
+//            firstName = name,
+//            surName = surName,
+//            email = FirebaseHelp.getAuth().currentUser?.email,
+//            phone = phone,
+//            genre = genre,
+//            country = country
+//        )
+//        update(user)
+//    }
 
 }
