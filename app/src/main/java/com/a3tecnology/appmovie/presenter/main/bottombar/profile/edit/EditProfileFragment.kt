@@ -50,8 +50,10 @@ class EditProfileFragment : Fragment() {
 
     //aula 371
     private val CAMERA_PERMISSION = Manifest.permission.CAMERA
-    private var currentPhotoPath: String? = null
-    private lateinit var photoUri: Uri
+
+    //Aula 374
+    //    private var currentPhotoPath: String? = null
+    private var currentPhotoUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,14 +101,46 @@ class EditProfileFragment : Fragment() {
                     showSnackBar(message = it)
                 }
             } else {
-                update()
+                //Aula 374
+                if (currentPhotoUri != null) {
+                    saveUserImage()
+                } else {
+                    update()
+                }
+
+            }
+        }
+    }
+
+    // AUla 374
+    private fun saveUserImage() {
+        currentPhotoUri?.let {
+            editProfileViewModel.saveUserImage(it).observe(viewLifecycleOwner) { stateView ->
+                when (stateView) {
+                    is StateView.Loading -> {
+//                        showLoading(true)
+                    }
+                    is StateView.Success -> {
+//                        showLoading(false)
+                        update(stateView.data)
+                        showSnackBar(message = R.string.txt_update_message_edit_profile_success)
+                    }
+                    is StateView.Error -> {
+//                        showLoading(false)
+                        showSnackBar(
+                            message = FirebaseHelp.validatorError(error = stateView.message ?: "" )
+                        )
+                    }
+                }
             }
         }
     }
 
     //aula 373 - um novo update para atender a nova proposta
-    private fun update() {
+    private fun update(urlImage: String? = null) {
         val user = User (
+            id = FirebaseHelp.getUserId(),
+            photoUrl = urlImage ?: "",
             firstName = binding.editNameProfile.text.toString(),
             surName = binding.editSurNameProfile.text.toString(),
             email = FirebaseHelp.getAuth().currentUser?.email,
@@ -137,31 +171,6 @@ class EditProfileFragment : Fragment() {
             }
         }
     }
-
-    //aula 367.112
-//    private fun update(user: User) {
-//        editProfileViewModel.update(user).observe(viewLifecycleOwner) {stateView ->
-//            when(stateView) {
-//                is StateView.Loading -> {
-//                    showLoading(true)
-//                }
-//
-//                is StateView.Success -> {
-//
-//                    showLoading(false)
-//                    showSnackBar(message = R.string.txt_update_message_edit_profile_success)
-////                    Toast.makeText(requireContext(), "Cadastro realizado com sucesso.", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                is StateView.Error -> {
-//                    showLoading(false)
-//                    showSnackBar(
-//                        message = FirebaseHelp.validatorError(error = stateView.message ?: "")
-//                    )
-//                }
-//            }
-//        }
-//    }
 
     //aula 367.112
     private fun showLoading(isLoading: Boolean) {
@@ -254,12 +263,34 @@ class EditProfileFragment : Fragment() {
         }
     }
 
-    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
-        uri ->
-        if (uri != null) {
+    private val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        uri?.let {
+
+            currentPhotoUri = it  // aula 374
             binding.imgProfile.setImageURI(uri)
         }
     }
+
+    private val pickImageLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+
+            currentPhotoUri = it  //aula 374
+
+            binding.imgProfile.setImageURI(it)
+
+        }
+    }
+
+    private val takePictureLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { success: Boolean ->
+        if (success) {
+            binding.imgProfile.setImageURI(currentPhotoUri)
+        }
+    }
+
 
     //AULA 370
     private fun checkPermissionGranted(permission: String) =
@@ -303,13 +334,6 @@ class EditProfileFragment : Fragment() {
             }
         }
 
-    private val pickImageLauncher = registerForActivityResult(
-        ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            binding.imgProfile.setImageURI(it)
-        }
-    }
-
     //aula 371
     private fun checkCameraPermission() {
         if (checkPermissionGranted(CAMERA_PERMISSION)) {
@@ -331,20 +355,12 @@ class EditProfileFragment : Fragment() {
     private fun openCamera() {
         val photoFile = createImageFile()
         photoFile?.let {
-            photoUri = FileProvider.getUriForFile(
+            currentPhotoUri = FileProvider.getUriForFile(
                 requireContext(),
                 "${requireContext().packageName}.provider",
                 it
             )
-            takePictureLauncher.launch(photoUri)
-        }
-    }
-
-    private val takePictureLauncher = registerForActivityResult(
-        ActivityResultContracts.TakePicture()
-    ) { success: Boolean ->
-        if (success) {
-            binding.imgProfile.setImageURI(photoUri)
+            takePictureLauncher.launch(currentPhotoUri)
         }
     }
 
@@ -357,7 +373,7 @@ class EditProfileFragment : Fragment() {
             ".jpg",
             storageDir
         )
-        currentPhotoPath = imageFile.absolutePath
+//        currentPhotoPath = imageFile.absolutePath
         return imageFile
     }
 
@@ -406,5 +422,31 @@ class EditProfileFragment : Fragment() {
 //        )
 //        update(user)
 //    }
+
+    //aula 367.112
+//    private fun update(user: User) {
+//        editProfileViewModel.update(user).observe(viewLifecycleOwner) {stateView ->
+//            when(stateView) {
+//                is StateView.Loading -> {
+//                    showLoading(true)
+//                }
+//
+//                is StateView.Success -> {
+//
+//                    showLoading(false)
+//                    showSnackBar(message = R.string.txt_update_message_edit_profile_success)
+////                    Toast.makeText(requireContext(), "Cadastro realizado com sucesso.", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                is StateView.Error -> {
+//                    showLoading(false)
+//                    showSnackBar(
+//                        message = FirebaseHelp.validatorError(error = stateView.message ?: "")
+//                    )
+//                }
+//            }
+//        }
+//    }
+
 
 }
