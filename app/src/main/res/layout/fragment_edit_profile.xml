@@ -53,11 +53,21 @@
                     android:layout_height="match_parent"
                     app:cardCornerRadius="60dp">
 
+                    <TextView
+                        android:id="@+id/txt_photo_empty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        tools:text="AH"/>
+
                     <ImageView
                         android:id="@+id/img_profile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
+                        android:visibility="invisible"
                         tools:src="@drawable/movie"
                         tools:ignore="ContentDescription" />
 

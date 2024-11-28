@@ -81,6 +81,7 @@ class AuthActivity : AppCompatActivity() {
             }
         }
     }
+
     companion object {
         const val AUTHENTICATION_PARAMETER = "AUTHENTICATION_PARAMETER"
     }

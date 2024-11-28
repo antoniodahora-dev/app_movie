@@ -86,7 +86,7 @@ class EditProfileViewModel @Inject constructor(
 
        if (genre.isEmpty()) {
 //            showSnackBar(message = R.string.txt_genre_empty_edit_profile_fragment)
-         validateData.value = Pair(false, R.string.txt_genreEdit_empty_profile_fragment)
+            validateData.value = Pair(false, R.string.txt_genreEdit_empty_profile_fragment)
             return
         }
 

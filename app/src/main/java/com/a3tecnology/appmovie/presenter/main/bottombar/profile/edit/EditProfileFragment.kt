@@ -54,6 +54,7 @@ class EditProfileFragment : Fragment() {
     //Aula 374
     //    private var currentPhotoPath: String? = null
     private var currentPhotoUri: Uri? = null
+    private var user: User? = null //aula 376
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,8 +72,6 @@ class EditProfileFragment : Fragment() {
         initListener()
         getUser()
     }
-
-
 
     private fun initListener() {
         binding.btnUpdate.setOnClickListener {
@@ -140,7 +139,7 @@ class EditProfileFragment : Fragment() {
     private fun update(urlImage: String? = null) {
         val user = User (
             id = FirebaseHelp.getUserId(),
-            photoUrl = urlImage ?: "",
+            photoUrl = urlImage ?: user?.photoUrl, //aula 376
             firstName = binding.editNameProfile.text.toString(),
             surName = binding.editSurNameProfile.text.toString(),
             email = FirebaseHelp.getAuth().currentUser?.email,
@@ -198,9 +197,10 @@ class EditProfileFragment : Fragment() {
                 is StateView.Success -> {
 
                     showLoading(false)
-                    stateView.data?.let {
-                        configData(user = it)
-                    }
+
+                    //aula 376
+                    user = stateView.data
+                    configData()
 //                    Toast.makeText(requireContext(), "Cadastro realizado com sucesso.", Toast.LENGTH_SHORT).show()
                 }
 
@@ -215,21 +215,37 @@ class EditProfileFragment : Fragment() {
     }
 
     //aula 367.112
-    private fun configData(user: User) {
+    private fun configData() {
 
-       binding.editNameProfile.setText(user.firstName)
-       binding.editSurNameProfile.setText(user.surName)
+       binding.editNameProfile.setText(user?.firstName)
+       binding.editSurNameProfile.setText(user?.surName)
        binding.editEmailProfile.setText(FirebaseHelp.getAuth().currentUser?.email)
-       binding.editPhoneProfile.setText(user.phone)
-       binding.editGenreProfile.setText(user.genre)
-       binding.editCountryProfile.setText(user.country)
+       binding.editPhoneProfile.setText(user?.phone)
+       binding.editGenreProfile.setText(user?.genre)
+       binding.editCountryProfile.setText(user?.country)
+
+        // aula 375
+        binding.txtPhotoEmpty.isVisible = user?.photoUrl?.isEmpty() == true
+        binding.imgProfile.isVisible = user?.photoUrl?.isNotEmpty() == true
+
+        if (user?.photoUrl?.isNotEmpty() == true) {
+            Glide
+                .with(requireContext())
+                .load(user?.photoUrl)
+                .into(binding.imgProfile)
+        } else {
+            binding.txtPhotoEmpty.text = getString(
+                R.string.txt_user_photo_empty_fragment ,
+                user?.firstName?.first(), user?.surName?.first())
+        }
 
     }
 
     // aula 369
     private fun openBottomSelectImage() {
 
-            val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
+            val bottomSheetDialog = BottomSheetDialog(requireContext(),
+                R.style.BottomSheetDialog)
             val bottomSheetBinding = BottomSheetSelectImageBinding.inflate(
                 layoutInflater, null, false)
 
@@ -259,18 +275,21 @@ class EditProfileFragment : Fragment() {
             }
         } else {
             // version android 13 +
-            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            pickMedia.launch(PickVisualMediaRequest(
+                ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
     }
 
     private val pickMedia =
-        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        uri?.let {
+            registerForActivityResult(
+                ActivityResultContracts.PickVisualMedia()) { uri ->
 
-            currentPhotoUri = it  // aula 374
-            binding.imgProfile.setImageURI(uri)
+            uri?.let {
+
+                currentPhotoUri = it  // aula 374
+                binding.imgProfile.setImageURI(uri)
+            }
         }
-    }
 
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -294,10 +313,8 @@ class EditProfileFragment : Fragment() {
 
     //AULA 370
     private fun checkPermissionGranted(permission: String) =
-        ContextCompat.checkSelfPermission(
-            requireContext(),
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(
+                requireContext(), permission ) == PackageManager.PERMISSION_GRANTED
 
     private fun showBottomSheetPermissionDenied() {
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)

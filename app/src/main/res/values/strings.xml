@@ -12,6 +12,7 @@
     <string name="error_generic">Ocorreu um erro, por favor tente novamente mais tarde.</string>
     <string name="txt_email_or_password_empty">Todos os campos devem ser preenchidos.</string>
     <string name="txt_formated_value">R$ %1$s</string>
+    <string name="txt_user_photo_empty_fragment">%1$s %2$s</string>
 
     <!--    HomeAuthFragment-->
     <string name="title_home_auth_fragment">Entrar com</string>

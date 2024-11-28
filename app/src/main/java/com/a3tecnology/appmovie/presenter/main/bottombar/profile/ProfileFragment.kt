@@ -7,16 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.a3tecnology.appmovie.R
 import com.a3tecnology.appmovie.databinding.BottomSheetLogoutMovieBinding
 import com.a3tecnology.appmovie.databinding.FragmentProfileBinding
 import com.a3tecnology.appmovie.domain.model.menu.MenuProfile
 import com.a3tecnology.appmovie.domain.model.menu.MenuProfileType.*
+import com.a3tecnology.appmovie.domain.model.user.User
 import com.a3tecnology.appmovie.presenter.auth.activity.AuthActivity
 import com.a3tecnology.appmovie.presenter.auth.activity.AuthActivity.Companion.AUTHENTICATION_PARAMETER
 import com.a3tecnology.appmovie.presenter.auth.enums.AuthenticationDestinations
 import com.a3tecnology.appmovie.presenter.main.bottombar.profile.adapter.ProfileMenuAdapter
+import com.a3tecnology.appmovie.util.FirebaseHelp
+import com.a3tecnology.appmovie.util.StateView
+import com.a3tecnology.appmovie.util.showSnackBar
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
@@ -33,6 +40,8 @@ class ProfileFragment : Fragment() {
 
     private lateinit var profileMenuAdapter: ProfileMenuAdapter
 
+    private val profileViewModel: ProfileViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,9 +54,29 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        configData()
+        getUser()
         initRecyclerView()
 
+    }
+
+    private fun getUser() {
+        profileViewModel.getUser().observe(viewLifecycleOwner) {stateView ->
+            when(stateView) {
+                is StateView.Loading -> {}
+
+                is StateView.Success -> {
+                    stateView.data?.let {
+                        configData(user = it)
+                    }
+                }
+
+                is StateView.Error -> {
+                    showSnackBar(
+                        message = FirebaseHelp.validatorError(error = stateView.message ?: "")
+                    )
+                }
+            }
+        }
     }
 
     private fun initRecyclerView() {
@@ -87,16 +116,28 @@ class ProfileFragment : Fragment() {
 
     }
 
-    private fun configData() {
-        binding.imgProfile.setImageDrawable(
-            ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.ic_profile
-            )
+    private fun configData(user: User) {
+        binding.txtNameProfile.text = getString(
+            R.string.txt_user_photo_empty_fragment ,
+            user.firstName,
+            user.surName
         )
 
-        binding.txtNameProfile.text = "Antonio da Hora"
-        binding.txtEmailProfile.text = "antonio_dahora@hotmail.com"
+        binding.txtEmailProfile.text = FirebaseHelp.getAuth().currentUser?.email
+
+        // aula 375
+        binding.txtPhotoEmpty.isVisible = user.photoUrl?.isEmpty() == true
+        binding.imgProfile.isVisible = user.photoUrl?.isNotEmpty() == true
+
+        if (user.photoUrl?.isNotEmpty() == true) {
+            Glide
+                .with(requireContext())
+                .load(user.photoUrl)
+                .into(binding.imgProfile)
+        } else {
+            binding.txtPhotoEmpty.text = getString(
+                R.string.txt_user_photo_empty_fragment , user.firstName?.first(), user.surName?.first())
+        }
     }
 
     //aula 365 - 110
@@ -124,7 +165,6 @@ class ProfileFragment : Fragment() {
         intent.putExtra(AUTHENTICATION_PARAMETER, AuthenticationDestinations.LOGIN_SCREEN)
         startActivity(intent)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
